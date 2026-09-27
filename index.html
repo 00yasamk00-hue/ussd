@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" class="dark">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -107,307 +107,339 @@
 
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full flex-1">
     
-    <!-- Tab Navigation Bar (Analyzer & Specs removed) -->
-    <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-4 mb-6 gap-3 flex-wrap">
-      <div class="flex items-center space-x-2 space-x-reverse bg-slate-200/70 dark:bg-slate-900 p-1.5 rounded-2xl border border-slate-300/50 dark:border-slate-800">
-        <button id="tabBtnSimulator" onclick="switchMainTab('simulator')" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all bg-white dark:bg-slate-800 text-brand-600 dark:text-brand-400 shadow-sm flex items-center gap-2">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
-          المحاكي التفاعلي ومولّد الأكواد
-        </button>
+    <!-- ============ HOME VIEW: 3 Big Tabs ============ -->
+    <div id="homeView" class="max-w-4xl mx-auto py-8 sm:py-16">
+      <div class="text-center mb-10">
+        <h2 class="text-2xl sm:text-4xl font-black text-slate-800 dark:text-white mb-3">
+          اختر مزوّد الخدمة
+        </h2>
+        <p class="text-sm sm:text-base text-slate-500 dark:text-slate-400">
+          اضغط على أي مزوّد للانتقال إلى صفحة التحويل الخاصة به
+        </p>
       </div>
 
-      <div class="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
-        <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse-subtle"></span>
-        <span>بوابة USSDC: <span class="font-bold text-slate-700 dark:text-slate-200">جاهزة للمعالجة</span></span>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+        <!-- Bank of Palestine Tab -->
+        <button onclick="openProviderPage('bop')" class="group bg-white dark:bg-slate-900 rounded-3xl p-8 border-2 border-slate-200 dark:border-slate-800 hover:border-brand-500 dark:hover:border-brand-500 hover:shadow-xl transition-all duration-300 flex flex-col items-center text-center">
+          <div class="w-20 h-20 rounded-3xl bg-gradient-to-tr from-amber-500 to-amber-300 flex items-center justify-center text-white shadow-lg shadow-amber-500/30 mb-4 group-hover:scale-110 transition-transform">
+            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+          </div>
+          <h3 class="text-lg font-black text-slate-800 dark:text-white mb-1">بنك فلسطين</h3>
+          <p class="text-sm font-mono font-bold text-brand-600 dark:text-brand-400">*267#</p>
+          <p class="text-[11px] text-slate-400 mt-2">خدمات مصرفية شاملة</p>
+        </button>
+
+        <!-- PalPay Tab -->
+        <button onclick="openProviderPage('palpay')" class="group bg-white dark:bg-slate-900 rounded-3xl p-8 border-2 border-slate-200 dark:border-slate-800 hover:border-brand-500 dark:hover:border-brand-500 hover:shadow-xl transition-all duration-300 flex flex-col items-center text-center">
+          <div class="w-20 h-20 rounded-3xl bg-gradient-to-tr from-sky-500 to-sky-300 flex items-center justify-center text-white shadow-lg shadow-sky-500/30 mb-4 group-hover:scale-110 transition-transform">
+            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+          </div>
+          <h3 class="text-lg font-black text-slate-800 dark:text-white mb-1">محفظة بال بي</h3>
+          <p class="text-sm font-mono font-bold text-brand-600 dark:text-brand-400">*370#</p>
+          <p class="text-[11px] text-slate-400 mt-2">محفظة إلكترونية</p>
+        </button>
+
+        <!-- Jawwal Pay Tab -->
+        <button onclick="openProviderPage('jawwal')" class="group bg-white dark:bg-slate-900 rounded-3xl p-8 border-2 border-slate-200 dark:border-slate-800 hover:border-brand-500 dark:hover:border-brand-500 hover:shadow-xl transition-all duration-300 flex flex-col items-center text-center">
+          <div class="w-20 h-20 rounded-3xl bg-gradient-to-tr from-rose-500 to-rose-300 flex items-center justify-center text-white shadow-lg shadow-rose-500/30 mb-4 group-hover:scale-110 transition-transform">
+            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+          </div>
+          <h3 class="text-lg font-black text-slate-800 dark:text-white mb-1">محفظة جوال بي</h3>
+          <p class="text-sm font-mono font-bold text-brand-600 dark:text-brand-400">*110#</p>
+          <p class="text-[11px] text-slate-400 mt-2">محفظة إلكترونية</p>
+        </button>
       </div>
     </div>
 
-    <div id="tabContentSimulator" class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+    <!-- ============ PROVIDER PAGE VIEW (hidden by default) ============ -->
+    <div id="providerPageView" class="hidden">
       
-      <!-- Left Configurator Section (7 cols) -->
-      <section class="lg:col-span-7 space-y-6">
-        
-        <!-- ===== MAIN TABS: PROVIDERS ===== -->
-        <div class="bg-white dark:bg-slate-900 rounded-3xl p-5 sm:p-6 border border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
-          <div class="flex items-center justify-between mb-4">
-            <h2 class="text-sm sm:text-base font-extrabold flex items-center gap-2 text-slate-800 dark:text-slate-100">
-              <span class="p-2 rounded-xl bg-brand-500/10 text-brand-600 dark:text-brand-400">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
-              </span>
-              اختر المزود
-            </h2>
-            <span class="text-xs font-semibold px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300" id="currentModeBadge">
-              دفع تجاري (P2M)
-            </span>
-          </div>
+      <!-- Back button + Title -->
+      <div class="flex items-center justify-between mb-6 flex-wrap gap-3">
+        <button onclick="goHome()" class="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition text-sm font-bold text-slate-700 dark:text-slate-200">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          رجوع للرئيسية
+        </button>
+        <div class="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+          <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse-subtle"></span>
+          <span>بوابة USSDC: <span class="font-bold text-slate-700 dark:text-slate-200">جاهزة للمعالجة</span></span>
+        </div>
+      </div>
 
-          <!-- Provider Tabs (3 main tabs) -->
-          <div class="grid grid-cols-3 gap-2 mb-5">
-            <button type="button" id="tabProviderBop" onclick="setProvider('bop')" class="provider-tab-btn flex flex-col sm:flex-row items-center justify-center gap-2 py-3 px-3 rounded-2xl border-2 font-black text-xs sm:text-sm transition-all duration-200 border-slate-200 dark:border-slate-800 bg-transparent text-slate-600 dark:text-slate-400 hover:border-slate-300 dark:hover:border-slate-700">
-              <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
-              <span>بنك فلسطين</span>
-            </button>
-            <button type="button" id="tabProviderPalpay" onclick="setProvider('palpay')" class="provider-tab-btn flex flex-col sm:flex-row items-center justify-center gap-2 py-3 px-3 rounded-2xl border-2 font-black text-xs sm:text-sm transition-all duration-200 border-slate-200 dark:border-slate-800 bg-transparent text-slate-600 dark:text-slate-400 hover:border-slate-300 dark:hover:border-slate-700">
-              <svg class="w-5 h-5 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
-              <span>محفظة بال بي</span>
-            </button>
-            <button type="button" id="tabProviderJawwal" onclick="setProvider('jawwal')" class="provider-tab-btn flex flex-col sm:flex-row items-center justify-center gap-2 py-3 px-3 rounded-2xl border-2 font-black text-xs sm:text-sm transition-all duration-200 border-slate-200 dark:border-slate-800 bg-transparent text-slate-600 dark:text-slate-400 hover:border-slate-300 dark:hover:border-slate-700">
-              <svg class="w-5 h-5 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
-              <span>محفظة جوال بي</span>
-            </button>
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        
+        <!-- Left Configurator Section (7 cols) -->
+        <section class="lg:col-span-7 space-y-6">
+          
+          <!-- Provider Header Card -->
+          <div id="providerHeaderCard" class="bg-white dark:bg-slate-900 rounded-3xl p-5 sm:p-6 border border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
+            <div class="flex items-center gap-4">
+              <div id="providerHeaderIcon" class="w-16 h-16 rounded-2xl flex items-center justify-center text-white shadow-lg shrink-0">
+                <!-- Icon injected via JS -->
+              </div>
+              <div class="flex-1">
+                <div class="flex items-center justify-between flex-wrap gap-2">
+                  <h2 id="providerHeaderName" class="text-lg sm:text-xl font-black text-slate-800 dark:text-white">بنك فلسطين (BOP)</h2>
+                  <span id="currentModeBadge" class="text-xs font-semibold px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                    دفع تجاري (P2M)
+                  </span>
+                </div>
+                <p id="providerHeaderCode" class="text-sm font-mono font-bold text-brand-600 dark:text-brand-400 mt-1">*267#</p>
+                <p id="providerHeaderType" class="text-[11px] text-slate-400 mt-0.5">بنك تجاري • Ooredoo 3G</p>
+              </div>
+            </div>
           </div>
 
           <!-- ===== PAYMENT TYPE DROPDOWN + INPUTS ===== -->
-          <div class="space-y-4 pt-4 border-t border-slate-200 dark:border-slate-800">
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <!-- Target Identifier -->
-              <div>
-                <label id="inputLabelTarget" class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
-                  معرّف التاجر (Merchant ID)
-                </label>
-                <div class="relative">
-                  <input type="text" id="inputTarget" value="5421" oninput="handleInputChange()" placeholder="مثال: 5421" class="w-full rounded-2xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 px-4 py-3 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500 transition">
-                  <span id="targetBadgeType" class="absolute left-3 top-3 text-[11px] font-bold bg-slate-200 dark:bg-slate-700 px-2 py-0.5 rounded-lg text-slate-700 dark:text-slate-300">
-                    تاجر
-                  </span>
+          <div class="bg-white dark:bg-slate-900 rounded-3xl p-5 sm:p-6 border border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
+            <h3 class="text-sm sm:text-base font-extrabold flex items-center gap-2 text-slate-800 dark:text-slate-100 mb-4">
+              <span class="p-2 rounded-xl bg-brand-500/10 text-brand-600 dark:text-brand-400">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
+              </span>
+              بيانات العملية والمبلغ
+            </h3>
+
+            <div class="space-y-4">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <!-- Target Identifier -->
+                <div>
+                  <label id="inputLabelTarget" class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
+                    معرّف التاجر (Merchant ID)
+                  </label>
+                  <div class="relative">
+                    <input type="text" id="inputTarget" value="5421" oninput="handleInputChange()" placeholder="مثال: 5421" class="w-full rounded-2xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 px-4 py-3 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500 transition">
+                    <span id="targetBadgeType" class="absolute left-3 top-3 text-[11px] font-bold bg-slate-200 dark:bg-slate-700 px-2 py-0.5 rounded-lg text-slate-700 dark:text-slate-300">
+                      تاجر
+                    </span>
+                  </div>
+                  <p class="text-[11px] text-slate-400 mt-1" id="targetHelperText">كود التاجر المسجل في شبكة الدفع (4-6 أرقام)</p>
                 </div>
-                <p class="text-[11px] text-slate-400 mt-1" id="targetHelperText">كود التاجر المسجل في شبكة الدفع (4-6 أرقام)</p>
+
+                <!-- Amount Input & Currency -->
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
+                    المبلغ المراد تحويله
+                  </label>
+                  <div class="relative flex">
+                    <input type="number" id="inputAmount" value="75" min="1" max="2500" oninput="handleInputChange()" placeholder="0.00" class="w-full rounded-2xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 px-4 py-3 text-sm font-black font-mono focus:outline-none focus:ring-2 focus:ring-brand-500 transition">
+                    <div class="absolute left-2 top-2">
+                      <select id="currencySelect" onchange="handleInputChange()" class="bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-100 text-xs font-bold py-1.5 px-2.5 rounded-xl border-none outline-none cursor-pointer">
+                        <option value="ILS">₪ شيكل</option>
+                        <option value="JOD">JD دينار</option>
+                        <option value="USD">$ دولار</option>
+                      </select>
+                    </div>
+                  </div>
+                  <p class="text-[11px] text-slate-400 mt-1">الحد اليومي لتعليمات سلطة النقد (PMA): 2,000 شيكل</p>
+                </div>
               </div>
 
-              <!-- Amount Input & Currency -->
+              <!-- Payment Type Dropdown -->
               <div>
                 <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
-                  المبلغ المراد تحويله
+                  نوع الدفع
                 </label>
-                <div class="relative flex">
-                  <input type="number" id="inputAmount" value="75" min="1" max="2500" oninput="handleInputChange()" placeholder="0.00" class="w-full rounded-2xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 px-4 py-3 text-sm font-black font-mono focus:outline-none focus:ring-2 focus:ring-brand-500 transition">
-                  <div class="absolute left-2 top-2">
-                    <select id="currencySelect" onchange="handleInputChange()" class="bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-100 text-xs font-bold py-1.5 px-2.5 rounded-xl border-none outline-none cursor-pointer">
-                      <option value="ILS">₪ شيكل</option>
-                      <option value="JOD">JD دينار</option>
-                      <option value="USD">$ دولار</option>
-                    </select>
-                  </div>
-                </div>
-                <p class="text-[11px] text-slate-400 mt-1">الحد اليومي لتعليمات سلطة النقد (PMA): 2,000 شيكل</p>
+                <select id="paymentTypeSelect" onchange="setPaymentType(this.value)" class="w-full rounded-2xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 px-4 py-3 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500 transition cursor-pointer">
+                  <option value="merchant" selected>دفع لتاجر (P2M)</option>
+                  <option value="friend">دفع لصديق (P2P)</option>
+                </select>
               </div>
             </div>
+          </div>
 
-            <!-- Payment Type Dropdown -->
-            <div>
-              <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
-                نوع الدفع
-              </label>
-              <select id="paymentTypeSelect" onchange="setPaymentType(this.value)" class="w-full rounded-2xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 px-4 py-3 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500 transition cursor-pointer">
-                <option value="merchant" selected>دفع لتاجر (P2M)</option>
-                <option value="friend">دفع لصديق (P2P)</option>
-              </select>
+          <!-- USSD Quick String -->
+          <div class="bg-white dark:bg-slate-900 rounded-3xl p-5 sm:p-6 border border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-extrabold text-slate-500 dark:text-slate-400">
+                سلسلة الـ USSD المباشرة (Quick String):
+              </span>
+              <span class="text-[11px] font-bold text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-brand-950/40 px-2 py-0.5 rounded-md border border-brand-500/20">
+                جاهزة للطلب المباشر
+              </span>
             </div>
-          </div>
-        </div>
 
-        <!-- USSD Quick String -->
-        <div class="bg-white dark:bg-slate-900 rounded-3xl p-5 sm:p-6 border border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
-          <div class="flex items-center justify-between mb-2">
-            <span class="text-xs font-extrabold text-slate-500 dark:text-slate-400">
-              سلسلة الـ USSD المباشرة (Quick String):
-            </span>
-            <span class="text-[11px] font-bold text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-brand-950/40 px-2 py-0.5 rounded-md border border-brand-500/20">
-              جاهزة للطلب المباشر
-            </span>
-          </div>
-
-          <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-            <div class="flex-1 bg-slate-950 text-emerald-400 font-mono font-bold text-base sm:text-lg px-4 py-3.5 rounded-2xl border border-slate-800 tracking-wider text-left overflow-x-auto select-all custom-scrollbar flex items-center justify-between" dir="ltr">
-              <span id="displayUssdString">*267*1*5421*75#</span>
-              <span class="text-xs text-slate-500 font-normal">USSD</span>
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+              <div class="flex-1 bg-slate-950 text-emerald-400 font-mono font-bold text-base sm:text-lg px-4 py-3.5 rounded-2xl border border-slate-800 tracking-wider text-left overflow-x-auto select-all custom-scrollbar flex items-center justify-between" dir="ltr">
+                <span id="displayUssdString">*267*5*5421*75#</span>
+                <span class="text-xs text-slate-500 font-normal">USSD</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <button onclick="copyUssdCommand()" class="flex-1 sm:flex-none p-3.5 rounded-2xl bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 transition flex items-center justify-center gap-1.5 text-xs font-bold" title="نسخ الكود">
+                  <svg class="w-4 h-4 text-slate-700 dark:text-slate-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                  <span class="sm:hidden">نسخ</span>
+                </button>
+                <a id="btnTelLink" href="tel:*267*5*5421*75%23" class="flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-3.5 rounded-2xl bg-brand-600 hover:bg-brand-700 text-white font-black text-sm shadow-md shadow-brand-600/30 transition">
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+                  اتصال USSD
+                </a>
+              </div>
             </div>
-            <div class="flex items-center gap-2">
-              <button onclick="copyUssdCommand()" class="flex-1 sm:flex-none p-3.5 rounded-2xl bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 transition flex items-center justify-center gap-1.5 text-xs font-bold" title="نسخ الكود">
-                <svg class="w-4 h-4 text-slate-700 dark:text-slate-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
-                <span class="sm:hidden">نسخ</span>
-              </button>
-              <a id="btnTelLink" href="tel:*267*5*5421*75%23" class="flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-3.5 rounded-2xl bg-brand-600 hover:bg-brand-700 text-white font-black text-sm shadow-md shadow-brand-600/30 transition">
-                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
-                اتصال USSD
-              </a>
-            </div>
-          </div>
-          
-          <div id="toastNotification" class="hidden text-xs text-brand-600 dark:text-brand-400 font-bold mt-2 flex items-center gap-1.5">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-            تم نسخ كود الـ USSD بنجاح إلى الحافظة!
-          </div>
-        </div>
-
-        <!-- Provider Direct Codes Comparison Table -->
-        <div class="bg-white dark:bg-slate-900 rounded-3xl p-5 sm:p-6 border border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
-          <h4 class="text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3">
-            جدول المزودين والأكواد المعتمدة في السوق الفلسطيني
-          </h4>
-          <div class="overflow-x-auto custom-scrollbar">
-            <table class="w-full text-right text-xs">
-              <thead>
-                <tr class="border-b border-slate-200 dark:border-slate-800 text-slate-400">
-                  <th class="pb-2 font-bold">المزوّد</th>
-                  <th class="pb-2 font-bold">النوع</th>
-                  <th class="pb-2 font-bold">كود الخدمة</th>
-                  <th class="pb-2 font-bold">قالب دفع تجاري</th>
-                  <th class="pb-2 font-bold">قالب دفع صديق</th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-slate-100 dark:divide-slate-800/60 font-mono" id="providersTableBody">
-                <!-- Injected via JS -->
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-      </section>
-
-      <section class="lg:col-span-5 flex flex-col items-center">
-        
-        <!-- Smartphone Container -->
-        <div class="w-full max-w-[340px] bg-slate-900 rounded-[50px] p-4 shadow-2xl border-4 border-slate-800 relative select-none">
-          
-          <!-- Speaker & Notch -->
-          <div class="w-28 h-4 bg-slate-800 rounded-full mx-auto mb-2 flex items-center justify-center">
-            <div class="w-2.5 h-2.5 rounded-full bg-slate-950 border border-slate-700"></div>
-          </div>
-
-          <!-- Smartphone Screen Frame -->
-          <div class="bg-slate-950 rounded-[38px] overflow-hidden border border-slate-800 h-[600px] flex flex-col relative text-slate-100 shadow-inner">
             
-            <!-- Status Bar -->
-            <div class="px-5 pt-3 pb-1 flex justify-between items-center text-[10px] text-slate-400 font-mono z-10">
-              <span id="simCarrierDisplay">Ooredoo 3G</span>
-              <div class="flex items-center gap-1.5">
-                <span>95%</span>
-                <div class="w-4 h-2 border border-slate-400 rounded-xs p-0.5">
-                  <div class="w-full h-full bg-slate-300 rounded-[1px]"></div>
-                </div>
-              </div>
+            <div id="toastNotification" class="hidden text-xs text-brand-600 dark:text-brand-400 font-bold mt-2 flex items-center gap-1.5">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+              تم نسخ كود الـ USSD بنجاح إلى الحافظة!
             </div>
-
-            <!-- Screen Views Container -->
-            <div class="flex-1 p-4 flex flex-col justify-between relative overflow-hidden">
-
-              <!-- VIEW 1: Phone Dialer & Keypad -->
-              <div id="simViewDialer" class="flex-1 flex flex-col justify-between">
-                
-                <!-- Dialed Number Preview -->
-                <div class="mt-4 text-center">
-                  <div class="text-[11px] text-slate-500 font-mono" id="dialerProviderName">بنك فلسطين (*267#)</div>
-                  <div id="dialerInputDisplay" class="text-2xl font-black font-mono tracking-wider text-emerald-400 min-h-[36px] overflow-x-auto px-2" dir="ltr">
-                    *267*1*5421*75#
-                  </div>
-                </div>
-
-                <!-- DTMF Keypad Grid (3x4) -->
-                <div class="grid grid-cols-3 gap-2 px-2 my-2">
-                  <button onclick="pressKey('1')" class="h-12 rounded-full bg-slate-800/80 hover:bg-slate-700 active:scale-95 text-white font-bold text-lg transition flex flex-col items-center justify-center">
-                    <span>1</span><span class="text-[8px] text-slate-400 -mt-1 font-normal">.</span>
-                  </button>
-                  <button onclick="pressKey('2')" class="h-12 rounded-full bg-slate-800/80 hover:bg-slate-700 active:scale-95 text-white font-bold text-lg transition flex flex-col items-center justify-center">
-                    <span>2</span><span class="text-[8px] text-slate-400 -mt-1 font-normal">ABC</span>
-                  </button>
-                  <button onclick="pressKey('3')" class="h-12 rounded-full bg-slate-800/80 hover:bg-slate-700 active:scale-95 text-white font-bold text-lg transition flex flex-col items-center justify-center">
-                    <span>3</span><span class="text-[8px] text-slate-400 -mt-1 font-normal">DEF</span>
-                  </button>
-
-                  <button onclick="pressKey('4')" class="h-12 rounded-full bg-slate-800/80 hover:bg-slate-700 active:scale-95 text-white font-bold text-lg transition flex flex-col items-center justify-center">
-                    <span>4</span><span class="text-[8px] text-slate-400 -mt-1 font-normal">GHI</span>
-                  </button>
-                  <button onclick="pressKey('5')" class="h-12 rounded-full bg-slate-800/80 hover:bg-slate-700 active:scale-95 text-white font-bold text-lg transition flex flex-col items-center justify-center">
-                    <span>5</span><span class="text-[8px] text-slate-400 -mt-1 font-normal">JKL</span>
-                  </button>
-                  <button onclick="pressKey('6')" class="h-12 rounded-full bg-slate-800/80 hover:bg-slate-700 active:scale-95 text-white font-bold text-lg transition flex flex-col items-center justify-center">
-                    <span>6</span><span class="text-[8px] text-slate-400 -mt-1 font-normal">MNO</span>
-                  </button>
-
-                  <button onclick="pressKey('7')" class="h-12 rounded-full bg-slate-800/80 hover:bg-slate-700 active:scale-95 text-white font-bold text-lg transition flex flex-col items-center justify-center">
-                    <span>7</span><span class="text-[8px] text-slate-400 -mt-1 font-normal">PQRS</span>
-                  </button>
-                  <button onclick="pressKey('8')" class="h-12 rounded-full bg-slate-800/80 hover:bg-slate-700 active:scale-95 text-white font-bold text-lg transition flex flex-col items-center justify-center">
-                    <span>8</span><span class="text-[8px] text-slate-400 -mt-1 font-normal">TUV</span>
-                  </button>
-                  <button onclick="pressKey('9')" class="h-12 rounded-full bg-slate-800/80 hover:bg-slate-700 active:scale-95 text-white font-bold text-lg transition flex flex-col items-center justify-center">
-                    <span>9</span><span class="text-[8px] text-slate-400 -mt-1 font-normal">WXYZ</span>
-                  </button>
-
-                  <button onclick="pressKey('*')" class="h-12 rounded-full bg-slate-800/80 hover:bg-slate-700 active:scale-95 text-white font-bold text-xl transition flex items-center justify-center">
-                    *
-                  </button>
-                  <button onclick="pressKey('0')" class="h-12 rounded-full bg-slate-800/80 hover:bg-slate-700 active:scale-95 text-white font-bold text-lg transition flex flex-col items-center justify-center">
-                    <span>0</span><span class="text-[8px] text-slate-400 -mt-1 font-normal">+</span>
-                  </button>
-                  <button onclick="pressKey('#')" class="h-12 rounded-full bg-slate-800/80 hover:bg-slate-700 active:scale-95 text-white font-bold text-xl transition flex items-center justify-center">
-                    #
-                  </button>
-                </div>
-
-                <!-- Call & Clear Controls -->
-                <div class="flex items-center justify-center gap-4 mt-2">
-                  <button onclick="clearLastKey()" class="w-12 h-12 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center transition" title="حذف">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2M3 12l6.414 6.414a2 2 0 001.414.586H19a2 2 0 002-2V7a2 2 0 00-2-2h-7.172a2 2 0 00-1.414.586L3 12z"/></svg>
-                  </button>
-
-                  <button onclick="launchInteractiveSimulator()" class="w-14 h-14 rounded-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black shadow-lg shadow-emerald-500/40 flex items-center justify-center active:scale-95 transition" title="اتصال">
-                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
-                  </button>
-
-                  <button onclick="syncDialerToQuickCode()" class="w-12 h-12 rounded-full bg-slate-800 hover:bg-slate-700 text-emerald-400 flex items-center justify-center transition" title="تطبيق الكود المولد">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
-                  </button>
-                </div>
-              </div>
-
-              <!-- VIEW 2: Real USSD Network Popup Dialog -->
-              <div id="simViewModal" class="hidden absolute inset-x-2 top-8 bg-slate-900/95 backdrop-blur-xl rounded-2xl border border-slate-700/80 p-4 shadow-2xl z-20 flex flex-col justify-between min-h-[380px]">
-                
-                <div>
-                  <!-- Dialog Header -->
-                  <div class="flex items-center justify-between pb-2 border-b border-slate-800 text-[11px] text-slate-400 font-mono">
-                    <span class="text-emerald-400 font-bold" id="modalProviderCode">*267#</span>
-                    <span>رسالة المشغل (USSD)</span>
-                  </div>
-
-                  <!-- Dialog Screen Body -->
-                  <div class="my-4 text-xs font-mono leading-relaxed text-slate-200 whitespace-pre-line select-text" id="modalContentText">
-                    جاري الاتصال بمركز الـ USSD...
-                  </div>
-                </div>
-
-                <!-- Input & Controls -->
-                <div>
-                  <div id="modalInputContainer" class="mb-3">
-                    <input type="text" id="modalUserInput" class="w-full bg-slate-950 border border-slate-700 text-emerald-400 font-mono text-sm px-3 py-2 rounded-xl text-center focus:outline-none focus:border-brand-500" placeholder="أدخل خيارك هنا">
-                  </div>
-
-                  <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-800">
-                    <button onclick="terminateSimulator()" class="py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs transition">
-                      إلغاء (Cancel)
-                    </button>
-                    <button id="modalBtnSend" onclick="submitSimulatorStep()" class="py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition">
-                      إرسال (Send)
-                    </button>
-                  </div>
-                </div>
-
-              </div>
-
-              <!-- Home Indicator Bar -->
-              <div class="w-28 h-1 bg-slate-700 rounded-full mx-auto mt-1"></div>
-            </div>
-
           </div>
-        </div>
 
-        <p class="text-xs text-slate-500 dark:text-slate-400 mt-4 text-center max-w-xs">
-          💡 للتجربة الحية: اضغط على زر الاتصال الأخضر ثم استخدم الرمز السري <span class="font-mono font-bold text-brand-500">1234</span> لإتمام العملية بنجاح.
-        </p>
+          <!-- Provider Direct Codes Comparison Table -->
+          <div class="bg-white dark:bg-slate-900 rounded-3xl p-5 sm:p-6 border border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
+            <h4 class="text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3">
+              جدول المزودين والأكواد المعتمدة في السوق الفلسطيني
+            </h4>
+            <div class="overflow-x-auto custom-scrollbar">
+              <table class="w-full text-right text-xs">
+                <thead>
+                  <tr class="border-b border-slate-200 dark:border-slate-800 text-slate-400">
+                    <th class="pb-2 font-bold">المزوّد</th>
+                    <th class="pb-2 font-bold">النوع</th>
+                    <th class="pb-2 font-bold">كود الخدمة</th>
+                    <th class="pb-2 font-bold">قالب دفع تجاري</th>
+                    <th class="pb-2 font-bold">قالب دفع صديق</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 dark:divide-slate-800/60 font-mono" id="providersTableBody">
+                  <!-- Injected via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
 
-      </section>
+        </section>
+
+        <!-- Right: Smartphone Simulator (5 cols) -->
+        <section class="lg:col-span-5 flex flex-col items-center">
+          
+          <div class="w-full max-w-[340px] bg-slate-900 rounded-[50px] p-4 shadow-2xl border-4 border-slate-800 relative select-none">
+            
+            <div class="w-28 h-4 bg-slate-800 rounded-full mx-auto mb-2 flex items-center justify-center">
+              <div class="w-2.5 h-2.5 rounded-full bg-slate-950 border border-slate-700"></div>
+            </div>
+
+            <div class="bg-slate-950 rounded-[38px] overflow-hidden border border-slate-800 h-[600px] flex flex-col relative text-slate-100 shadow-inner">
+              
+              <div class="px-5 pt-3 pb-1 flex justify-between items-center text-[10px] text-slate-400 font-mono z-10">
+                <span id="simCarrierDisplay">Ooredoo 3G</span>
+                <div class="flex items-center gap-1.5">
+                  <span>95%</span>
+                  <div class="w-4 h-2 border border-slate-400 rounded-xs p-0.5">
+                    <div class="w-full h-full bg-slate-300 rounded-[1px]"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex-1 p-4 flex flex-col justify-between relative overflow-hidden">
+
+                <!-- VIEW 1: Phone Dialer & Keypad -->
+                <div id="simViewDialer" class="flex-1 flex flex-col justify-between">
+                  
+                  <div class="mt-4 text-center">
+                    <div class="text-[11px] text-slate-500 font-mono" id="dialerProviderName">بنك فلسطين (*267#)</div>
+                    <div id="dialerInputDisplay" class="text-2xl font-black font-mono tracking-wider text-emerald-400 min-h-[36px] overflow-x-auto px-2" dir="ltr">
+                      *267*5*5421*75#
+                    </div>
+                  </div>
+
+                  <div class="grid grid-cols-3 gap-2 px-2 my-2">
+                    <button onclick="pressKey('1')" class="h-12 rounded-full bg-slate-800/80 hover:bg-slate-700 active:scale-95 text-white font-bold text-lg transition flex flex-col items-center justify-center">
+                      <span>1</span><span class="text-[8px] text-slate-400 -mt-1 font-normal">.</span>
+                    </button>
+                    <button onclick="pressKey('2')" class="h-12 rounded-full bg-slate-800/80 hover:bg-slate-700 active:scale-95 text-white font-bold text-lg transition flex flex-col items-center justify-center">
+                      <span>2</span><span class="text-[8px] text-slate-400 -mt-1 font-normal">ABC</span>
+                    </button>
+                    <button onclick="pressKey('3')" class="h-12 rounded-full bg-slate-800/80 hover:bg-slate-700 active:scale-95 text-white font-bold text-lg transition flex flex-col items-center justify-center">
+                      <span>3</span><span class="text-[8px] text-slate-400 -mt-1 font-normal">DEF</span>
+                    </button>
+
+                    <button onclick="pressKey('4')" class="h-12 rounded-full bg-slate-800/80 hover:bg-slate-700 active:scale-95 text-white font-bold text-lg transition flex flex-col items-center justify-center">
+                      <span>4</span><span class="text-[8px] text-slate-400 -mt-1 font-normal">GHI</span>
+                    </button>
+                    <button onclick="pressKey('5')" class="h-12 rounded-full bg-slate-800/80 hover:bg-slate-700 active:scale-95 text-white font-bold text-lg transition flex flex-col items-center justify-center">
+                      <span>5</span><span class="text-[8px] text-slate-400 -mt-1 font-normal">JKL</span>
+                    </button>
+                    <button onclick="pressKey('6')" class="h-12 rounded-full bg-slate-800/80 hover:bg-slate-700 active:scale-95 text-white font-bold text-lg transition flex flex-col items-center justify-center">
+                      <span>6</span><span class="text-[8px] text-slate-400 -mt-1 font-normal">MNO</span>
+                    </button>
+
+                    <button onclick="pressKey('7')" class="h-12 rounded-full bg-slate-800/80 hover:bg-slate-700 active:scale-95 text-white font-bold text-lg transition flex flex-col items-center justify-center">
+                      <span>7</span><span class="text-[8px] text-slate-400 -mt-1 font-normal">PQRS</span>
+                    </button>
+                    <button onclick="pressKey('8')" class="h-12 rounded-full bg-slate-800/80 hover:bg-slate-700 active:scale-95 text-white font-bold text-lg transition flex flex-col items-center justify-center">
+                      <span>8</span><span class="text-[8px] text-slate-400 -mt-1 font-normal">TUV</span>
+                    </button>
+                    <button onclick="pressKey('9')" class="h-12 rounded-full bg-slate-800/80 hover:bg-slate-700 active:scale-95 text-white font-bold text-lg transition flex flex-col items-center justify-center">
+                      <span>9</span><span class="text-[8px] text-slate-400 -mt-1 font-normal">WXYZ</span>
+                    </button>
+
+                    <button onclick="pressKey('*')" class="h-12 rounded-full bg-slate-800/80 hover:bg-slate-700 active:scale-95 text-white font-bold text-xl transition flex items-center justify-center">
+                      *
+                    </button>
+                    <button onclick="pressKey('0')" class="h-12 rounded-full bg-slate-800/80 hover:bg-slate-700 active:scale-95 text-white font-bold text-lg transition flex flex-col items-center justify-center">
+                      <span>0</span><span class="text-[8px] text-slate-400 -mt-1 font-normal">+</span>
+                    </button>
+                    <button onclick="pressKey('#')" class="h-12 rounded-full bg-slate-800/80 hover:bg-slate-700 active:scale-95 text-white font-bold text-xl transition flex items-center justify-center">
+                      #
+                    </button>
+                  </div>
+
+                  <div class="flex items-center justify-center gap-4 mt-2">
+                    <button onclick="clearLastKey()" class="w-12 h-12 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center transition" title="حذف">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2M3 12l6.414 6.414a2 2 0 001.414.586H19a2 2 0 002-2V7a2 2 0 00-2-2h-7.172a2 2 0 00-1.414.586L3 12z"/></svg>
+                    </button>
+
+                    <button onclick="launchInteractiveSimulator()" class="w-14 h-14 rounded-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black shadow-lg shadow-emerald-500/40 flex items-center justify-center active:scale-95 transition" title="اتصال">
+                      <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+                    </button>
+
+                    <button onclick="syncDialerToQuickCode()" class="w-12 h-12 rounded-full bg-slate-800 hover:bg-slate-700 text-emerald-400 flex items-center justify-center transition" title="تطبيق الكود المولد">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- VIEW 2: Real USSD Network Popup Dialog -->
+                <div id="simViewModal" class="hidden absolute inset-x-2 top-8 bg-slate-900/95 backdrop-blur-xl rounded-2xl border border-slate-700/80 p-4 shadow-2xl z-20 flex flex-col justify-between min-h-[380px]">
+                  
+                  <div>
+                    <div class="flex items-center justify-between pb-2 border-b border-slate-800 text-[11px] text-slate-400 font-mono">
+                      <span class="text-emerald-400 font-bold" id="modalProviderCode">*267#</span>
+                      <span>رسالة المشغل (USSD)</span>
+                    </div>
+
+                    <div class="my-4 text-xs font-mono leading-relaxed text-slate-200 whitespace-pre-line select-text" id="modalContentText">
+                      جاري الاتصال بمركز الـ USSD...
+                    </div>
+                  </div>
+
+                  <div>
+                    <div id="modalInputContainer" class="mb-3">
+                      <input type="text" id="modalUserInput" class="w-full bg-slate-950 border border-slate-700 text-emerald-400 font-mono text-sm px-3 py-2 rounded-xl text-center focus:outline-none focus:border-brand-500" placeholder="أدخل خيارك هنا">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-800">
+                      <button onclick="terminateSimulator()" class="py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs transition">
+                        إلغاء (Cancel)
+                      </button>
+                      <button id="modalBtnSend" onclick="submitSimulatorStep()" class="py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition">
+                        إرسال (Send)
+                      </button>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="w-28 h-1 bg-slate-700 rounded-full mx-auto mt-1"></div>
+              </div>
+
+            </div>
+          </div>
+
+          <p class="text-xs text-slate-500 dark:text-slate-400 mt-4 text-center max-w-xs">
+            💡 للتجربة الحية: اضغط على زر الاتصال الأخضر ثم استخدم الرمز السري <span class="font-mono font-bold text-brand-500">1234</span> لإتمام العملية بنجاح.
+          </p>
+
+        </section>
+
+      </div>
 
     </div>
 
@@ -428,7 +460,7 @@
   <script>
     // State Management
     const appState = {
-      paymentType: 'merchant', // 'merchant' | 'friend'
+      paymentType: 'merchant',
       providerKey: 'bop',
       amount: '75',
       targetId: '5421',
@@ -443,7 +475,7 @@
       }
     };
 
-    // Palestinian Banking & Wallets Directory (3 main providers only)
+    // Palestinian Banking & Wallets Directory
     const providersData = {
       bop: {
         id: 'bop',
@@ -453,9 +485,11 @@
         type: 'بنك تجاري',
         themeColor: 'amber',
         network: 'Ooredoo 3G',
-        merchantSyntax: '*267*1*{id}*{amt}#',
+        merchantSyntax: '*267*5*{id}*{amt}#',
         friendSyntax: '*267*1*{id}*{amt}#',
-        nameLookup: 'شركة الأمل للتجارة (بنك فلسطين)'
+        nameLookup: 'شركة الأمل للتجارة (بنك فلسطين)',
+        iconSvg: '<svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>',
+        headerBg: 'bg-gradient-to-tr from-amber-500 to-amber-300'
       },
       palpay: {
         id: 'palpay',
@@ -465,9 +499,11 @@
         type: 'محفظة إلكترونية',
         themeColor: 'sky',
         network: 'Jawwal/Ooredoo',
-        merchantSyntax: '*370*1*1*{id}*{amt}#',
-        friendSyntax: '*370*2*{id}*{amt}#',
-        nameLookup: 'متجر السلام التجاري (PalPay)'
+        merchantSyntax: '*370*2*{id}*{amt}#',
+        friendSyntax: '*370*1*1*{id}*{amt}#',
+        nameLookup: 'متجر السلام التجاري (PalPay)',
+        iconSvg: '<svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>',
+        headerBg: 'bg-gradient-to-tr from-sky-500 to-sky-300'
       },
       jawwal: {
         id: 'jawwal',
@@ -477,9 +513,11 @@
         type: 'محفظة إلكترونية',
         themeColor: 'rose',
         network: 'Jawwal 4G',
-        merchantSyntax: '*110*1*{id}*{amt}#',
-        friendSyntax: '*110*2*{id}*{amt}#',
-        nameLookup: 'سوبرماركت القدس (Jawwal Pay)'
+        merchantSyntax: '*110*1*1*{id}*{amt}#',
+        friendSyntax: '*110*1*2*{id}*{amt}#',
+        nameLookup: 'سوبرماركت القدس (Jawwal Pay)',
+        iconSvg: '<svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>',
+        headerBg: 'bg-gradient-to-tr from-rose-500 to-rose-300'
       }
     };
 
@@ -512,9 +550,7 @@
         osc2.start();
         osc1.stop(audioCtx.currentTime + duration);
         osc2.stop(audioCtx.currentTime + duration);
-      } catch (e) {
-        // AudioContext silent fallback
-      }
+      } catch (e) {}
     }
 
     function toggleSound() {
@@ -531,18 +567,12 @@
       }
     }
 
+    // Theme: default Light mode
     function initTheme() {
-      const isDark = document.documentElement.classList.contains('dark') || 
-        (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
-      if (isDark) {
-        document.documentElement.classList.add('dark');
-        document.getElementById('sunIcon').classList.remove('hidden');
-        document.getElementById('moonIcon').classList.add('hidden');
-      } else {
-        document.documentElement.classList.remove('dark');
-        document.getElementById('sunIcon').classList.add('hidden');
-        document.getElementById('moonIcon').classList.remove('hidden');
-      }
+      // Default is LIGHT mode (no dark class)
+      document.documentElement.classList.remove('dark');
+      document.getElementById('sunIcon').classList.add('hidden');
+      document.getElementById('moonIcon').classList.remove('hidden');
     }
 
     function toggleTheme() {
@@ -552,46 +582,41 @@
       playDtmfTone(697, 1209, 0.05);
     }
 
-    function renderProvidersUI() {
-      const tableBody = document.getElementById('providersTableBody');
-      tableBody.innerHTML = '';
-
-      Object.values(providersData).forEach((prov) => {
-        const tr = document.createElement('tr');
-        tr.className = 'hover:bg-slate-50 dark:hover:bg-slate-800/40 transition';
-        tr.innerHTML = `
-          <td class="py-2.5 font-bold text-slate-800 dark:text-slate-200">${prov.name}</td>
-          <td class="py-2.5 text-slate-500 text-[11px]">${prov.type}</td>
-          <td class="py-2.5 font-bold text-brand-600 dark:text-brand-400">${prov.shortCode}</td>
-          <td class="py-2.5 text-slate-500">${prov.merchantSyntax.replace('{id}', 'تاجر').replace('{amt}', 'مبلغ')}</td>
-          <td class="py-2.5 text-slate-500">${prov.friendSyntax.replace('{id}', 'رقم').replace('{amt}', 'مبلغ')}</td>
-        `;
-        tableBody.appendChild(tr);
-      });
-    }
-
-    // Set Provider via tab buttons
-    function setProvider(key) {
+    // ===== NAVIGATION =====
+    function openProviderPage(key) {
       appState.providerKey = key;
       const prov = providersData[key];
 
-      // Update active tab button styles
-      const tabIds = { bop: 'tabProviderBop', palpay: 'tabProviderPalpay', jawwal: 'tabProviderJawwal' };
-      Object.entries(tabIds).forEach(([pid, btnId]) => {
-        const btn = document.getElementById(btnId);
-        if (pid === key) {
-          btn.className = 'provider-tab-btn flex flex-col sm:flex-row items-center justify-center gap-2 py-3 px-3 rounded-2xl border-2 font-black text-xs sm:text-sm transition-all duration-200 border-brand-600 bg-brand-50/50 dark:bg-brand-950/30 text-brand-700 dark:text-brand-300 shadow-sm';
-        } else {
-          btn.className = 'provider-tab-btn flex flex-col sm:flex-row items-center justify-center gap-2 py-3 px-3 rounded-2xl border-2 font-black text-xs sm:text-sm transition-all duration-200 border-slate-200 dark:border-slate-800 bg-transparent text-slate-600 dark:text-slate-400 hover:border-slate-300 dark:hover:border-slate-700';
-        }
-      });
+      // Update provider header
+      document.getElementById('providerHeaderIcon').className = `w-16 h-16 rounded-2xl flex items-center justify-center text-white shadow-lg shrink-0 ${prov.headerBg}`;
+      document.getElementById('providerHeaderIcon').innerHTML = prov.iconSvg;
+      document.getElementById('providerHeaderName').textContent = prov.name;
+      document.getElementById('providerHeaderCode').textContent = prov.shortCode;
+      document.getElementById('providerHeaderType').textContent = `${prov.type} • ${prov.network}`;
 
+      // Update simulator carrier display
       document.getElementById('simCarrierDisplay').textContent = prov.network;
       document.getElementById('dialerProviderName').textContent = `${prov.name} (${prov.shortCode})`;
+
+      // Show provider page, hide home
+      document.getElementById('homeView').classList.add('hidden');
+      document.getElementById('providerPageView').classList.remove('hidden');
+
+      // Reset payment type
+      setPaymentType('merchant');
       updateGeneratedUssd();
-      playDtmfTone(770, 1209, 0.06);
+      playDtmfTone(770, 1209, 0.08);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
+    function goHome() {
+      document.getElementById('providerPageView').classList.add('hidden');
+      document.getElementById('homeView').classList.remove('hidden');
+      playDtmfTone(852, 1209, 0.08);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ===== PAYMENT =====
     function setPaymentType(type) {
       appState.paymentType = type;
       const label = document.getElementById('inputLabelTarget');
@@ -659,6 +684,7 @@
       setTimeout(() => toast.classList.add('hidden'), 3000);
     }
 
+    // ===== KEYPAD =====
     const dtmfFrequencies = {
       '1': [697, 1209], '2': [697, 1336], '3': [697, 1477],
       '4': [770, 1209], '5': [770, 1336], '6': [770, 1477],
@@ -693,6 +719,7 @@
       playDtmfTone(941, 1477, 0.09);
     }
 
+    // ===== SIMULATOR =====
     function launchInteractiveSimulator() {
       appState.simState.active = true;
       appState.simState.step = 1;
@@ -808,12 +835,9 @@
       if (e.key === 'Enter') submitSimulatorStep();
     });
 
-    // Initial Bootstrap
+    // Bootstrap
     window.addEventListener('DOMContentLoaded', () => {
       initTheme();
-      renderProvidersUI();
-      setProvider('bop');
-      setPaymentType('merchant');
       updateGeneratedUssd();
     });
   </script>
