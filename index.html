@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>بوابة ومدفوعات USSD المصرفية | فلسطين</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#ecfdf5',
+              100: '#d1fae5',
+              500: '#10b981',
+              600: '#059669',
+              700: '#047857',
+              800: '#065f46',
+              900: '#064e3b',
+            }
+          },
+          fontFamily: {
+            sans: ['Cairo', 'Tajawal', 'Segoe UI', 'sans-serif'],
+            mono: ['Consolas', 'Courier New', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts: Cairo & Tajawal -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Cairo', 'Tajawal', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: rgba(100, 116, 139, 0.4);
+      border-radius: 9999px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: rgba(100, 116, 139, 0.7);
+    }
+    @keyframes pulse-subtle {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+    .animate-pulse-subtle {
+      animation: pulse-subtle 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+  </style>
+</head>
+<body class="bg-slate-100 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen transition-colors duration-300 flex flex-col justify-between selection:bg-brand-500 selection:text-white">
+
+  <header class="sticky top-0 z-50 backdrop-blur-lg bg-white/85 dark:bg-slate-900/85 border-b border-slate-200 dark:border-slate-800 transition-colors shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- Brand & Title -->
+      <div class="flex items-center space-x-3 space-x-reverse">
+        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-brand-600 to-emerald-400 flex items-center justify-center text-white shadow-lg shadow-brand-500/25 font-black text-xl">
+          *#
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-base sm:text-lg font-black tracking-tight leading-none">بوابة مدفوعات USSD المصرفية</h1>
+            <span class="text-[10px] uppercase font-bold bg-brand-500/10 text-brand-600 dark:text-brand-400 px-2 py-0.5 rounded-full border border-brand-500/20">
+              PMA Ready
+            </span>
+          </div>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5 hidden sm:block">
+            نظام متوافق مع معايير سلطة النقد وشبكتي جوال وأوريدو فلسطين
+          </p>
+        </div>
+      </div>
+
+      <!-- Action Nav & Mode Toggles -->
+      <div class="flex items-center space-x-2 space-x-reverse">
+        <!-- Audio Mute/Unmute Toggle -->
+        <button id="soundToggleBtn" onclick="toggleSound()" class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition" title="المؤثرات الصوتية">
+          <svg id="soundOnIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
+          <svg id="soundOffIcon" class="w-5 h-5 hidden text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"/></svg>
+        </button>
+
+        <!-- Theme Toggle -->
+        <button id="themeToggleBtn" onclick="toggleTheme()" class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition" aria-label="تبديل النمط">
+          <svg id="sunIcon" class="w-5 h-5 hidden text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 9H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+          <svg id="moonIcon" class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full flex-1">
+    
+    <!-- Tab Navigation Bar -->
+    <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-4 mb-6 gap-3 flex-wrap">
+      <div class="flex items-center space-x-2 space-x-reverse bg-slate-200/70 dark:bg-slate-900 p-1.5 rounded-2xl border border-slate-300/50 dark:border-slate-800">
+        <button id="tabBtnSimulator" onclick="switchMainTab('simulator')" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all bg-white dark:bg-slate-800 text-brand-600 dark:text-brand-400 shadow-sm flex items-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+          المحاكي التفاعلي ومولّد الأكواد
+        </button>
+        <button id="tabBtnAnalyzer" onclick="switchMainTab('analyzer')" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white flex items-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          محلل ترميز الشاشة (UCS-2)
+        </button>
+        <button id="tabBtnSpecs" onclick="switchMainTab('specs')" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white flex items-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+          وثيقة المواصفات الهندسية (9 محاور)
+        </button>
+      </div>
+
+      <div class="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+        <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse-subtle"></span>
+        <span>بوابة USSDC: <span class="font-bold text-slate-700 dark:text-slate-200">جاهزة للمعالجة</span></span>
+      </div>
+    </div>
+
+    <div id="tabContentSimulator" class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+      
+      <!-- Left Configurator Section (7 cols) -->
+      <section class="lg:col-span-7 space-y-6">
+        
+        <!-- Transaction Type Selection -->
+        <div class="bg-white dark:bg-slate-900 rounded-3xl p-5 sm:p-6 border border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-sm sm:text-base font-extrabold flex items-center gap-2 text-slate-800 dark:text-slate-100">
+              <span class="p-2 rounded-xl bg-brand-500/10 text-brand-600 dark:text-brand-400">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
+              </span>
+              تحديد نوع المعاملة المالية
+            </h2>
+            <span class="text-xs font-semibold px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300" id="currentModeBadge">
+              دفع فوري مباشر
+            </span>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <button type="button" id="btnModeMerchant" onclick="setPaymentType('merchant')" class="flex flex-col sm:flex-row items-center justify-center gap-2.5 py-3.5 px-4 rounded-2xl border-2 font-black text-sm transition-all duration-200 border-brand-600 bg-brand-50/50 dark:bg-brand-950/30 text-brand-700 dark:text-brand-300 shadow-sm">
+              <svg class="w-5 h-5 text-brand-600 dark:text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+              <span>دفع تجاري (P2M)</span>
+            </button>
+            <button type="button" id="btnModeFriend" onclick="setPaymentType('friend')" class="flex flex-col sm:flex-row items-center justify-center gap-2.5 py-3.5 px-4 rounded-2xl border-2 font-black text-sm transition-all duration-200 border-slate-200 dark:border-slate-800 bg-transparent text-slate-600 dark:text-slate-400 hover:border-slate-300 dark:hover:border-slate-700">
+              <svg class="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+              <span>دفع صديق (P2P)</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="bg-white dark:bg-slate-900 rounded-3xl p-5 sm:p-6 border border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
+          <label class="block text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3">
+            المزوّد البنكي أو المحفظة الإلكترونية في فلسطين
+          </label>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-3" id="providersGrid">
+            <!-- Dynamic provider buttons rendered via JS -->
+          </div>
+        </div>
+
+        <!-- Form Details (Target ID & Amount) -->
+        <div class="bg-white dark:bg-slate-900 rounded-3xl p-5 sm:p-6 border border-slate-200 dark:border-slate-800 shadow-sm transition-colors space-y-4">
+          <h3 class="text-sm sm:text-base font-extrabold flex items-center gap-2 text-slate-800 dark:text-slate-100">
+            <span class="p-2 rounded-xl bg-brand-500/10 text-brand-600 dark:text-brand-400">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </span>
+            بيانات العملية والمبلغ
+          </h3>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <!-- Target Identifier -->
+            <div>
+              <label id="inputLabelTarget" class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
+                معرّف التاجر (Merchant ID)
+              </label>
+              <div class="relative">
+                <input type="text" id="inputTarget" value="5421" oninput="handleInputChange()" placeholder="مثال: 5421" class="w-full rounded-2xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 px-4 py-3 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500 transition">
+                <span id="targetBadgeType" class="absolute left-3 top-3 text-[11px] font-bold bg-slate-200 dark:bg-slate-700 px-2 py-0.5 rounded-lg text-slate-700 dark:text-slate-300">
+                  تاجر
+                </span>
+              </div>
+              <p class="text-[11px] text-slate-400 mt-1" id="targetHelperText">كود التاجر المسجل في شبكة الدفع (4-6 أرقام)</p>
+            </div>
+
+            <!-- Amount Input & Currency -->
+            <div>
+              <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
+                المبلغ المراد تحويله
+              </label>
+              <div class="relative flex">
+                <input type="number" id="inputAmount" value="75" min="1" max="2500" oninput="handleInputChange()" placeholder="0.00" class="w-full rounded-2xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 px-4 py-3 text-sm font-black font-mono focus:outline-none focus:ring-2 focus:ring-brand-500 transition">
+                <div class="absolute left-2 top-2">
+                  <select id="currencySelect" onchange="handleInputChange()" class="bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-100 text-xs font-bold py-1.5 px-2.5 rounded-xl border-none outline-none cursor-pointer">
+                    <option value="ILS">₪ شيكل</option>
+                    <option value="JOD">JD دينار</option>
+                    <option value="USD">$ دولار</option>
+                  </select>
+                </div>
+              </div>
+              <p class="text-[11px] text-slate-400 mt-1">الحد اليومي لتعليمات سلطة النقد (PMA): 2,000 شيكل</p>
+            </div>
+          </div>
+
+          <div class="pt-4 border-t border-slate-200 dark:border-slate-800">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-extrabold text-slate-500 dark:text-slate-400">
+                سلسلة الـ USSD المباشرة (Quick String):
+              </span>
+              <span class="text-[11px] font-bold text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-brand-950/40 px-2 py-0.5 rounded-md border border-brand-500/20">
+                جاهزة للطلب المباشر
+              </span>
+            </div>
+
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+              <div class="flex-1 bg-slate-950 text-emerald-400 font-mono font-bold text-base sm:text-lg px-4 py-3.5 rounded-2xl border border-slate-800 tracking-wider text-left overflow-x-auto select-all custom-scrollbar flex items-center justify-between" dir="ltr">
+                <span id="displayUssdString">*789*1*5421*75#</span>
+                <span class="text-xs text-slate-500 font-normal">USSD</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <button onclick="copyUssdCommand()" class="flex-1 sm:flex-none p-3.5 rounded-2xl bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 transition flex items-center justify-center gap-1.5 text-xs font-bold" title="نسخ الكود">
+                  <svg class="w-4 h-4 text-slate-700 dark:text-slate-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                  <span class="sm:hidden">نسخ</span>
+                </button>
+                <a id="btnTelLink" href="tel:*789*1*5421*75%23" class="flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-3.5 rounded-2xl bg-brand-600 hover:bg-brand-700 text-white font-black text-sm shadow-md shadow-brand-600/30 transition">
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+                  اتصال USSD
+                </a>
+              </div>
+            </div>
+            
+            <div id="toastNotification" class="hidden text-xs text-brand-600 dark:text-brand-400 font-bold mt-2 flex items-center gap-1.5">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+              تم نسخ كود الـ USSD بنجاح إلى الحافظة!
+            </div>
+          </div>
+        </div>
+
+        <!-- Provider Direct Codes Comparison Table -->
+        <div class="bg-white dark:bg-slate-900 rounded-3xl p-5 sm:p-6 border border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
+          <h4 class="text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3">
+            جدول المزودين والأكواد المعتمدة في السوق الفلسطيني
+          </h4>
+          <div class="overflow-x-auto custom-scrollbar">
+            <table class="w-full text-right text-xs">
+              <thead>
+                <tr class="border-b border-slate-200 dark:border-slate-800 text-slate-400">
+                  <th class="pb-2 font-bold">المزوّد</th>
+                  <th class="pb-2 font-bold">النوع</th>
+                  <th class="pb-2 font-bold">كود الخدمة</th>
+                  <th class="pb-2 font-bold">قالب دفع تجاري</th>
+                  <th class="pb-2 font-bold">قالب دفع صديق</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100 dark:divide-slate-800/60 font-mono" id="providersTableBody">
+                <!-- Injected via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </section>
+
+      <section class="lg:col-span-5 flex flex-col items-center">
+        
+        <!-- Smartphone Container -->
+        <div class="w-full max-w-[340px] bg-slate-900 rounded-[50px] p-4 shadow-2xl border-4 border-slate-800 relative select-none">
+          
+          <!-- Speaker & Notch -->
+          <div class="w-28 h-4 bg-slate-800 rounded-full mx-auto mb-2 flex items-center justify-center">
+            <div class="w-2.5 h-2.5 rounded-full bg-slate-950 border border-slate-700"></div>
+          </div>
+
+          <!-- Smartphone Screen Frame -->
+          <div class="bg-slate-950 rounded-[38px] overflow-hidden border border-slate-800 h-[600px] flex flex-col relative text-slate-100 shadow-inner">
+            
+            <!-- Status Bar -->
+            <div class="px-5 pt-3 pb-1 flex justify-between items-center text-[10px] text-slate-400 font-mono z-10">
+              <span id="simCarrierDisplay">Jawwal 4G</span>
+              <div class="flex items-center gap-1.5">
+                <span>95%</span>
+                <div class="w-4 h-2 border border-slate-400 rounded-xs p-0.5">
+                  <div class="w-full h-full bg-slate-300 rounded-[1px]"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Screen Views Container -->
+            <div class="flex-1 p-4 flex flex-col justify-between relative overflow-hidden">
+
+              <!-- VIEW 1: Phone Dialer & Keypad -->
+              <div id="simViewDialer" class="flex-1 flex flex-col justify-between">
+                
+                <!-- Dialed Number Preview -->
+                <div class="mt-4 text-center">
+                  <div class="text-[11px] text-slate-500 font-mono" id="dialerProviderName">جوال باي (*789#)</div>
+                  <div id="dialerInputDisplay" class="text-2xl font-black font-mono tracking-wider text-emerald-400 min-h-[36px] overflow-x-auto px-2" dir="ltr">
+                    *789#
+                  </div>
+                </div>
+
+                <!-- DTMF Keypad Grid (3x4) -->
+                <div class="grid grid-cols-3 gap-2 px-2 my-2">
+                  <button onclick="pressKey('1')" class="h-12 rounded-full bg-slate-800/80 hover:bg-slate-700 active:scale-95 text-white font-bold text-lg transition flex flex-col items-center justify-center">
+                    <span>1</span><span class="text-[8px] text-slate-400 -mt-1 font-normal">.</span>
+                  </button>
+                  <button onclick="pressKey('2')" class="h-12 rounded-full bg-slate-800/80 hover:bg-slate-700 active:scale-95 text-white font-bold text-lg transition flex flex-col items-center justify-center">
+                    <span>2</span><span class="text-[8px] text-slate-400 -mt-1 font-normal">ABC</span>
+                  </button>
+                  <button onclick="pressKey('3')" class="h-12 rounded-full bg-slate-800/80 hover:bg-slate-700 active:scale-95 text-white font-bold text-lg transition flex flex-col items-center justify-center">
+                    <span>3</span><span class="text-[8px] text-slate-400 -mt-1 font-normal">DEF</span>
+                  </button>
+
+                  <button onclick="pressKey('4')" class="h-12 rounded-full bg-slate-800/80 hover:bg-slate-700 active:scale-95 text-white font-bold text-lg transition flex flex-col items-center justify-center">
+                    <span>4</span><span class="text-[8px] text-slate-400 -mt-1 font-normal">GHI</span>
+                  </button>
+                  <button onclick="pressKey('5')" class="h-12 rounded-full bg-slate-800/80 hover:bg-slate-700 active:scale-95 text-white font-bold text-lg transition flex flex-col items-center justify-center">
+                    <span>5</span><span class="text-[8px] text-slate-400 -mt-1 font-normal">JKL</span>
+                  </button>
+                  <button onclick="pressKey('6')" class="h-12 rounded-full bg-slate-800/80 hover:bg-slate-700 active:scale-95 text-white font-bold text-lg transition flex flex-col items-center justify-center">
+                    <span>6</span><span class="text-[8px] text-slate-400 -mt-1 font-normal">MNO</span>
+                  </button>
+
+                  <button onclick="pressKey('7')" class="h-12 rounded-full bg-slate-800/80 hover:bg-slate-700 active:scale-95 text-white font-bold text-lg transition flex flex-col items-center justify-center">
+                    <span>7</span><span class="text-[8px] text-slate-400 -mt-1 font-normal">PQRS</span>
+                  </button>
+                  <button onclick="pressKey('8')" class="h-12 rounded-full bg-slate-800/80 hover:bg-slate-700 active:scale-95 text-white font-bold text-lg transition flex flex-col items-center justify-center">
+                    <span>8</span><span class="text-[8px] text-slate-400 -mt-1 font-normal">TUV</span>
+                  </button>
+                  <button onclick="pressKey('9')" class="h-12 rounded-full bg-slate-800/80 hover:bg-slate-700 active:scale-95 text-white font-bold text-lg transition flex flex-col items-center justify-center">
+                    <span>9</span><span class="text-[8px] text-slate-400 -mt-1 font-normal">WXYZ</span>
+                  </button>
+
+                  <button onclick="pressKey('*')" class="h-12 rounded-full bg-slate-800/80 hover:bg-slate-700 active:scale-95 text-white font-bold text-xl transition flex items-center justify-center">
+                    *
+                  </button>
+                  <button onclick="pressKey('0')" class="h-12 rounded-full bg-slate-800/80 hover:bg-slate-700 active:scale-95 text-white font-bold text-lg transition flex flex-col items-center justify-center">
+                    <span>0</span><span class="text-[8px] text-slate-400 -mt-1 font-normal">+</span>
+                  </button>
+                  <button onclick="pressKey('#')" class="h-12 rounded-full bg-slate-800/80 hover:bg-slate-700 active:scale-95 text-white font-bold text-xl transition flex items-center justify-center">
+                    #
+                  </button>
+                </div>
+
+                <!-- Call & Clear Controls -->
+                <div class="flex items-center justify-center gap-4 mt-2">
+                  <button onclick="clearLastKey()" class="w-12 h-12 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center transition" title="حذف">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2M3 12l6.414 6.414a2 2 0 001.414.586H19a2 2 0 002-2V7a2 2 0 00-2-2h-7.172a2 2 0 00-1.414.586L3 12z"/></svg>
+                  </button>
+
+                  <button onclick="launchInteractiveSimulator()" class="w-14 h-14 rounded-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black shadow-lg shadow-emerald-500/40 flex items-center justify-center active:scale-95 transition" title="اتصال">
+                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+                  </button>
+
+                  <button onclick="syncDialerToQuickCode()" class="w-12 h-12 rounded-full bg-slate-800 hover:bg-slate-700 text-emerald-400 flex items-center justify-center transition" title="تطبيق الكود المولد">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                  </button>
+                </div>
+              </div>
+
+              <!-- VIEW 2: Real USSD Network Popup Dialog -->
+              <div id="simViewModal" class="hidden absolute inset-x-2 top-8 bg-slate-900/95 backdrop-blur-xl rounded-2xl border border-slate-700/80 p-4 shadow-2xl z-20 flex flex-col justify-between min-h-[380px]">
+                
+                <div>
+                  <!-- Dialog Header -->
+                  <div class="flex items-center justify-between pb-2 border-b border-slate-800 text-[11px] text-slate-400 font-mono">
+                    <span class="text-emerald-400 font-bold" id="modalProviderCode">*789#</span>
+                    <span>رسالة المشغل (USSD)</span>
+                  </div>
+
+                  <!-- Dialog Screen Body -->
+                  <div class="my-4 text-xs font-mono leading-relaxed text-slate-200 whitespace-pre-line select-text" id="modalContentText">
+                    جاري الاتصال بمركز الـ USSD...
+                  </div>
+                </div>
+
+                <!-- Input & Controls -->
+                <div>
+                  <div id="modalInputContainer" class="mb-3">
+                    <input type="text" id="modalUserInput" class="w-full bg-slate-950 border border-slate-700 text-emerald-400 font-mono text-sm px-3 py-2 rounded-xl text-center focus:outline-none focus:border-brand-500" placeholder="أدخل خيارك هنا">
+                  </div>
+
+                  <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-800">
+                    <button onclick="terminateSimulator()" class="py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs transition">
+                      إلغاء (Cancel)
+                    </button>
+                    <button id="modalBtnSend" onclick="submitSimulatorStep()" class="py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition">
+                      إرسال (Send)
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- Home Indicator Bar -->
+              <div class="w-28 h-1 bg-slate-700 rounded-full mx-auto mt-1"></div>
+            </div>
+
+          </div>
+        </div>
+
+        <p class="text-xs text-slate-500 dark:text-slate-400 mt-4 text-center max-w-xs">
+          💡 للتجربة الحية: اضغط على زر الاتصال الأخضر ثم استخدم الرمز السري <span class="font-mono font-bold text-brand-500">1234</span> لإتمام العملية بنجاح.
+        </p>
+
+      </section>
+
+    </div>
+
+    <div id="tabContentAnalyzer" class="hidden space-y-6">
+      <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
+        
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h3 class="text-base font-extrabold text-slate-800 dark:text-slate-100 flex items-center gap-2">
+              <span class="p-2 rounded-xl bg-brand-500/10 text-brand-600 dark:text-brand-400">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/></svg>
+              </span>
+              فاحص نصوص وقوائم USSD (محددات UCS-2 العربية مقابل GSM 7-bit)
+            </h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
+              يفرض بروتوكول USSD في شبكات الهواتف النقالة سقف 70 حرفاً لكل شاشة عند إدخال حرف عربي واحد بسبب ترميز UCS-2 (16-bit لكل حرف).
+            </p>
+          </div>
+          <button onclick="loadSampleText()" class="text-xs font-bold text-brand-600 dark:text-brand-400 hover:underline">
+            تحميل نموذج رسالة مصرفية
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          
+          <!-- Text Input Area (7 cols) -->
+          <div class="lg:col-span-7 space-y-3">
+            <textarea id="analyzerTextInput" rows="5" oninput="analyzeTextEncoding()" class="w-full rounded-2xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 p-4 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500 transition custom-scrollbar" placeholder="اكتب أو الصق نص رسالة الـ USSD هنا لفحص التوافق مع مشغلي الاتصالات..."></textarea>
+            
+            <div class="flex items-center justify-between text-xs font-mono">
+              <span id="analyzerCharCount" class="text-slate-600 dark:text-slate-300 font-bold">0 حرف</span>
+              <span id="analyzerLimitDisplay" class="text-slate-400">الحد الأقصى: 70 حرفاً (UCS-2)</span>
+            </div>
+
+            <!-- Progress bar -->
+            <div class="w-full bg-slate-200 dark:bg-slate-700 h-2.5 rounded-full overflow-hidden">
+              <div id="analyzerProgress" class="bg-brand-500 h-full w-0 transition-all duration-300"></div>
+            </div>
+
+            <div id="analyzerWarningBox" class="hidden p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-600 dark:text-rose-400 text-xs font-bold flex items-center gap-2">
+              <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+              <span>تحذير: النص يتجاوز 70 حرفاً! سيؤدي ذلك إلى تقسيم الرسالة لشاشتين (Multi-part Dialogue) أو انقطاع الجلسة على أجهزة الهواتف البسيطة.</span>
+            </div>
+          </div>
+
+          <!-- Encoding Metadata Cards (5 cols) -->
+          <div class="lg:col-span-5 space-y-3">
+            <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 space-y-2.5">
+              <div class="flex justify-between items-center text-xs">
+                <span class="text-slate-500 dark:text-slate-400 font-bold">الترميز المكتشف:</span>
+                <span id="detectedEncodingBadge" class="font-mono font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2.5 py-0.5 rounded-md">GSM 7-Bit</span>
+              </div>
+              <div class="flex justify-between items-center text-xs">
+                <span class="text-slate-500 dark:text-slate-400 font-bold">الحجم بالبايت (Payload):</span>
+                <span id="payloadBytes" class="font-mono font-bold text-slate-800 dark:text-slate-100">0 Bytes / 140 Bytes</span>
+              </div>
+              <div class="flex justify-between items-center text-xs">
+                <span class="text-slate-500 dark:text-slate-400 font-bold">عدد الشاشات المقدرة:</span>
+                <span id="screenCountBadge" class="font-mono font-bold text-slate-800 dark:text-slate-100">1 شاشة</span>
+              </div>
+            </div>
+
+            <!-- Best Practice Tips -->
+            <div class="p-4 rounded-2xl bg-brand-500/5 border border-brand-500/20 text-slate-600 dark:text-slate-300 text-xs space-y-1.5 leading-relaxed">
+              <div class="font-bold text-brand-700 dark:text-brand-300">نصائح هندسية لصياغة شاشات USSD المصرفية:</div>
+              <ul class="list-disc list-inside space-y-1 text-[11px] text-slate-500 dark:text-slate-400">
+                <li>استخدم الاختصارات: "شيكل" بدلاً من "شيكل إسرائيلي جديد".</li>
+                <li>تجنب المقدمات الترحيبية الطويلة في شاشات التأكيد المالي.</li>
+                <li>اجعل دائماً خيار الرجوع `0. رجوع` أو `00. القائمة الرئيسية`.</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <div id="tabContentSpecs" class="hidden space-y-6">
+      
+      <!-- Specifications Header -->
+      <div class="bg-gradient-to-r from-slate-900 to-slate-800 text-white rounded-3xl p-6 sm:p-8 border border-slate-700 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <span class="text-xs font-bold text-brand-400 bg-brand-500/20 px-3 py-1 rounded-full border border-brand-500/30">
+            وثيقة مرجعية معتمدة للمطورين والبنوك
+          </span>
+          <h2 class="text-xl sm:text-2xl font-black mt-2">المواصفات الفنية وهندسة حلول USSD للمدفوعات المصرفية</h2>
+          <p class="text-xs sm:text-sm text-slate-300 mt-1 max-w-2xl">
+            دليل المتطلبات التنظيمية والمعمارية لتكامل المحافظ والبنوك الفلسطينية عبر بوابات مشغلي الاتصالات (Jawwal & Ooredoo) والمحول الوطني (PMA 1948 Switch).
+          </p>
+        </div>
+        <button onclick="window.print()" class="self-start md:self-center px-4 py-2.5 rounded-xl bg-slate-700 hover:bg-slate-600 text-xs font-bold text-white transition flex items-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+          طباعة / تصدير PDF
+        </button>
+      </div>
+
+      <!-- 9 Detailed Sections Accordion / Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <!-- 1. Scope & Users -->
+        <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm space-y-3">
+          <div class="flex items-center gap-2.5 text-brand-600 dark:text-brand-400 font-black text-sm">
+            <span class="w-7 h-7 rounded-xl bg-brand-500/10 flex items-center justify-center text-xs">1</span>
+            <h4>نطاق ومستخدمو النظام (Personas & KYC)</h4>
+          </div>
+          <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+            يستهدف النظام تمكين الشمول المالي لثلاث فئات رئيسية:
+          </p>
+          <ul class="text-xs text-slate-500 dark:text-slate-400 space-y-2 list-disc list-inside">
+            <li><strong class="text-slate-700 dark:text-slate-200">الأفراد (P2P):</strong> أصحاب الهواتف التقليدية (Feature Phones) ومناطق ضعف تغطية الإنترنت لتحويل الأموال الفوري.</li>
+            <li><strong class="text-slate-700 dark:text-slate-200">التجار (P2M):</strong> سائقو التاكسي، الباعة، والمحال بدون حاجة لأجهزة POS باهظة التكلفة.</li>
+            <li><strong class="text-slate-700 dark:text-slate-200">الاشتراك (Onboarding):</strong> ربط تلقائي لعملاء البنوك والمحافظ المعتمدين وفق متطلبات KYC لسلطة النقد برقم الـ MSISDN الموثق.</li>
+          </ul>
+        </div>
+
+        <!-- 2. Channels & Providers -->
+        <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm space-y-3">
+          <div class="flex items-center gap-2.5 text-brand-600 dark:text-brand-400 font-black text-sm">
+            <span class="w-7 h-7 rounded-xl bg-brand-500/10 flex items-center justify-center text-xs">2</span>
+            <h4>قنوات التكامل والمحافظ في فلسطين</h4>
+          </div>
+          <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+            خريطة الأكواد والواجهات المعتمدة:
+          </p>
+          <div class="font-mono text-[11px] bg-slate-50 dark:bg-slate-800/60 p-3 rounded-xl border border-slate-200 dark:border-slate-700 space-y-1.5">
+            <div>• جوال باي (Jawwal Pay): <span class="text-brand-500 font-bold">*789#</span> (REST/SMPP)</div>
+            <div>• بال باي (PalPay محفظتي): <span class="text-brand-500 font-bold">*150#</span> (ISO 8583)</div>
+            <div>• بنك فلسطين (BOP): <span class="text-brand-500 font-bold">*140#</span> (Finacle Switch)</div>
+            <div>• بنك القدس: <span class="text-brand-500 font-bold">*111#</span> | الإسلامي الفلسطيني: <span class="text-brand-500 font-bold">*222#</span></div>
+          </div>
+        </div>
+
+        <!-- 3. Payment Flows -->
+        <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm space-y-3">
+          <div class="flex items-center gap-2.5 text-brand-600 dark:text-brand-400 font-black text-sm">
+            <span class="w-7 h-7 rounded-xl bg-brand-500/10 flex items-center justify-center text-xs">3</span>
+            <h4>تدفقات الدفع واسترجاع الأخطاء (Rollback)</h4>
+          </div>
+          <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+            معالجة استباقية للحركات:
+          </p>
+          <ul class="text-xs text-slate-500 dark:text-slate-400 space-y-1.5 list-disc list-inside">
+            <li><strong>التحقق المسبق (Name Inquiry):</strong> استرجاع اسم التاجر/الصديق قبل طلب الـ PIN لمنع التحويل بالخطأ.</li>
+            <li><strong>انقطاع الاتصال (Timeout Handling):</strong> إنهاء الجلسة تلقائياً بعد 20 ثانية خمول وتنفيذ Auto-Reversal فوري في حال تعذر تأكيد قيد الحساب.</li>
+            <li><strong>تكرار الطلب (Idempotency):</strong> توليد مفتاح فريد للمعاملة لمنع الاقتطاع المزدوج.</li>
+          </ul>
+        </div>
+
+        <!-- 4. UI/UX & Localization -->
+        <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm space-y-3">
+          <div class="flex items-center gap-2.5 text-brand-600 dark:text-brand-400 font-black text-sm">
+            <span class="w-7 h-7 rounded-xl bg-brand-500/10 flex items-center justify-center text-xs">4</span>
+            <h4>واجهة المستخدم وترميز UCS-2</h4>
+          </div>
+          <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+            ضوابط صياغة النصوص المصرفية:
+          </p>
+          <ul class="text-xs text-slate-500 dark:text-slate-400 space-y-1.5 list-disc list-inside">
+            <li>الالتزام بحد الـ 70 حرفاً لكل شاشة بالعربية لمنع تقطيع الرسائل عبر شبكتي جوال وأوريدو.</li>
+            <li>إمكانية التبديل بين اللغتين العربية والإنجليزية (*789*9#).</li>
+            <li>تنسيق الأرقام القياسي 1 و 2 للخيار، و 0 للرجوع، و 00 للخروج.</li>
+          </ul>
+        </div>
+
+        <!-- 5. Security & HSM -->
+        <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm space-y-3">
+          <div class="flex items-center gap-2.5 text-brand-600 dark:text-brand-400 font-black text-sm">
+            <span class="w-7 h-7 rounded-xl bg-brand-500/10 flex items-center justify-center text-xs">5</span>
+            <h4>الأمن وتشفير PIN وأجهزة HSM</h4>
+          </div>
+          <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+            الامتثال الصارم لمعايير PCI-DSS وسلطة النقد:
+          </p>
+          <ul class="text-xs text-slate-500 dark:text-slate-400 space-y-1.5 list-disc list-inside">
+            <li>تشفير الـ PIN في طبقة HSM (Hardware Security Module) بنظام PIN Block ISO 9564 Format 0.</li>
+            <li>حظر تسجيل الـ PIN في أي ملفات Log أو قواعد بيانات وسيطة تماماً.</li>
+            <li>فحص استبدال الشريحة (SIM Swap Check via Telco HLR) لحظر العمليات فوراً عند تغيير الشريحة خلال 48 ساعة.</li>
+          </ul>
+        </div>
+
+        <!-- 6. Integration Architecture -->
+        <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm space-y-3">
+          <div class="flex items-center gap-2.5 text-brand-600 dark:text-brand-400 font-black text-sm">
+            <span class="w-7 h-7 rounded-xl bg-brand-500/10 flex items-center justify-center text-xs">6</span>
+            <h4>المعمارية التقنية والتزامن (High Concurrency)</h4>
+          </div>
+          <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+            البنية التحتية المصممة لتحمل أوقات الرواتب والأعياد:
+          </p>
+          <ul class="text-xs text-slate-500 dark:text-slate-400 space-y-1.5 list-disc list-inside">
+            <li>الربط عبر بروتوكولات SMPP 3.4 ثنائية الاتجاه أو SIGTRAN (M3UA/MAP).</li>
+            <li>إدارة جلسات USSD السريعة عبر Redis Clustered مع صلاحية TTL = 20 ثانية.</li>
+            <li>طوابير معالجة موزعة (Apache Kafka / RabbitMQ) لدعم أكثر من 500 عملية في الثانية (TPS).</li>
+          </ul>
+        </div>
+
+        <!-- 7. Monitoring & Auditing -->
+        <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm space-y-3">
+          <div class="flex items-center gap-2.5 text-brand-600 dark:text-brand-400 font-black text-sm">
+            <span class="w-7 h-7 rounded-xl bg-brand-500/10 flex items-center justify-center text-xs">7</span>
+            <h4>المراقبة وسجلات التدقيق (Audit Trails)</h4>
+          </div>
+          <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+            الرصد اللحظي والتنبيهات المصرفية:
+          </p>
+          <ul class="text-xs text-slate-500 dark:text-slate-400 space-y-1.5 list-disc list-inside">
+            <li>ربط المعاملات برقم مرجع موحد (RRN / Global UUID) للمطابقة اليومية والتسوية.</li>
+            <li>إطلاق تنبيهات عند تجاوز نسبة فشل الجلسات 3% عبر لوحات Grafana.</li>
+            <li>الاحتفاظ بسجلات المعاملات المشفرة لمدة 10 سنوات وفق تعليمات سلطة النقد (PMA).</li>
+          </ul>
+        </div>
+
+        <!-- 8. Testing & Deployment -->
+        <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm space-y-3">
+          <div class="flex items-center gap-2.5 text-brand-600 dark:text-brand-400 font-black text-sm">
+            <span class="w-7 h-7 rounded-xl bg-brand-500/10 flex items-center justify-center text-xs">8</span>
+            <h4>خطة الاختبار والنشر (Testing & DRC)</h4>
+          </div>
+          <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+            جاهزية التشغيل المستمر (High Availability):
+          </p>
+          <ul class="text-xs text-slate-500 dark:text-slate-400 space-y-1.5 list-disc list-inside">
+            <li>نشر بتكنولوجيا Blue-Green لضمان Zero Downtime أثناء التحديثات.</li>
+            <li>مركز تعافي من الكوارث (DRC) جغرافي منفصل برقم RPO &lt; دقيقة و RTO &lt; 5 دقائق.</li>
+            <li>اختبارات حمل دورية تحاكي ضغط 1,000 جلسة متزامنة.</li>
+          </ul>
+        </div>
+
+        <!-- 9. Timeline & Budget (Full Width) -->
+        <div class="md:col-span-2 bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+          <div class="flex items-center gap-2.5 text-brand-600 dark:text-brand-400 font-black text-sm">
+            <span class="w-7 h-7 rounded-xl bg-brand-500/10 flex items-center justify-center text-xs">9</span>
+            <h4>الجدول الزمني والتكلفة التقديرية للمشروع</h4>
+          </div>
+          <div class="overflow-x-auto custom-scrollbar">
+            <table class="w-full text-right text-xs">
+              <thead>
+                <tr class="border-b border-slate-200 dark:border-slate-800 text-slate-400">
+                  <th class="pb-2 font-bold">المرحلة</th>
+                  <th class="pb-2 font-bold">المهام الأساسية</th>
+                  <th class="pb-2 font-bold">المدة التقديرية</th>
+                  <th class="pb-2 font-bold">التكلفة التقريبية (USD)</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100 dark:divide-slate-800/60 font-semibold text-slate-700 dark:text-slate-300">
+                <tr>
+                  <td class="py-2.5">1. التراخيص والموافقات</td>
+                  <td class="py-2.5">تراخيص سلطة النقد، اتفاقيات مشغلي جوال وأوريدو، حجز الأكواد</td>
+                  <td class="py-2.5">4 أسابيع</td>
+                  <td class="py-2.5 font-mono text-emerald-600 dark:text-emerald-400">$8,000 - $12,000</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5">2. بنية الاتصال والبوابات</td>
+                  <td class="py-2.5">تهيئة خوادم SMPP/SIGTRAN، ربط VPN البنوك والمفاتيح الأمنية</td>
+                  <td class="py-2.5">6 أسابيع</td>
+                  <td class="py-2.5 font-mono text-emerald-600 dark:text-emerald-400">$18,000 - $25,000</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5">3. تطوير برمجيات الوسطاء</td>
+                  <td class="py-2.5">محرك جلسات الـ USSD، تكامل ISO 8583/REST، وإدارة تدفق الشاشات</td>
+                  <td class="py-2.5">8 أسابيع</td>
+                  <td class="py-2.5 font-mono text-emerald-600 dark:text-emerald-400">$30,000 - $40,000</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5">4. تدقيق الأمان وHSM</td>
+                  <td class="py-2.5">فحص الاختراق، مراجعة تشفير الـ PIN وتوافق معايير PCI-DSS</td>
+                  <td class="py-2.5">3 أسابيع</td>
+                  <td class="py-2.5 font-mono text-emerald-600 dark:text-emerald-400">$12,000 - $16,000</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5">5. الإطلاق التجريبي الكامل</td>
+                  <td class="py-2.5">اختبارات عينة تجار حقيقيين (Pilot)، التدريب، وتدشين الخدمة رسمياً</td>
+                  <td class="py-2.5">4 أسابيع</td>
+                  <td class="py-2.5 font-mono text-emerald-600 dark:text-emerald-400">$10,000 - $15,000</td>
+                </tr>
+                <tr class="bg-brand-500/5 font-black text-brand-700 dark:text-brand-300">
+                  <td class="py-3">الإجمالي النهائي</td>
+                  <td class="py-3">نظام مدفوعات مصرفي متكامل وجاهز للإنتاج</td>
+                  <td class="py-3">25 أسبوعاً</td>
+                  <td class="py-3 font-mono text-sm">$78,000 - $108,000</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <footer class="mt-8 border-t border-slate-200 dark:border-slate-800 bg-white/60 dark:bg-slate-900/60 backdrop-blur-md py-6 text-center text-xs text-slate-500 dark:text-slate-400">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-brand-500"></span>
+        <span>بوابة حلول USSD للمدفوعات المصرفية الفلسطينية - جاهز للتكامل مع سلطة النقد (PMA)</span>
+      </div>
+      <div>
+        <span>دعم المشغلين: Jawwal • Ooredoo • 1948 Switch</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // State Management
+    const appState = {
+      paymentType: 'merchant', // 'merchant' | 'friend'
+      providerKey: 'jawwal',
+      amount: '75',
+      targetId: '5421',
+      currency: 'ILS',
+      soundEnabled: true,
+      simState: {
+        active: false,
+        step: 0,
+        tempTarget: '',
+        tempAmount: '',
+        tempPin: ''
+      }
+    };
+
+    // Palestinian Banking & Wallets Directory
+    const providersData = {
+      jawwal: {
+        id: 'jawwal',
+        name: 'جوال باي (Jawwal Pay)',
+        shortCode: '*789#',
+        rawPrefix: '*789',
+        type: 'محفظة إلكترونية',
+        themeColor: 'rose',
+        network: 'Jawwal 4G',
+        merchantSyntax: '*789*1*{id}*{amt}#',
+        friendSyntax: '*789*2*{id}*{amt}#',
+        nameLookup: 'سوبرماركت القدس (جوال باي)'
+      },
+      palpay: {
+        id: 'palpay',
+        name: 'بال باي (محفظتي)',
+        shortCode: '*150#',
+        rawPrefix: '*150',
+        type: 'محفظة وبنك',
+        themeColor: 'sky',
+        network: 'Jawwal/Ooredoo',
+        merchantSyntax: '*150*1*{id}*{amt}#',
+        friendSyntax: '*150*2*{id}*{amt}#',
+        nameLookup: 'متجر السلام التجاري (PalPay)'
+      },
+      bop: {
+        id: 'bop',
+        name: 'بنك فلسطين (BOP)',
+        shortCode: '*140#',
+        rawPrefix: '*140',
+        type: 'بنك تجاري',
+        themeColor: 'amber',
+        network: 'Ooredoo 3G',
+        merchantSyntax: '*140*5*{id}*{amt}#',
+        friendSyntax: '*140*1*{id}*{amt}#',
+        nameLookup: 'شركة الأمل للتجارة (بنك فلسطين)'
+      },
+      quds: {
+        id: 'quds',
+        name: 'بنك القدس',
+        shortCode: '*111#',
+        rawPrefix: '*111',
+        type: 'بنك تجاري',
+        themeColor: 'indigo',
+        network: 'Jawwal 4G',
+        merchantSyntax: '*111*2*{id}*{amt}#',
+        friendSyntax: '*111*3*{id}*{amt}#',
+        nameLookup: 'صيدلية النور (بنك القدس)'
+      },
+      pib: {
+        id: 'pib',
+        name: 'الإسلامي الفلسطيني (PIB)',
+        shortCode: '*222#',
+        rawPrefix: '*222',
+        type: 'مصرف إسلامي',
+        themeColor: 'emerald',
+        network: 'Jawwal 4G',
+        merchantSyntax: '*222*1*{id}*{amt}#',
+        friendSyntax: '*222*2*{id}*{amt}#',
+        nameLookup: 'معرض التقنية (الإسلامي الفلسطيني)'
+      }
+    };
+
+    // Web Audio API for DTMF Keypad Tones
+    let audioCtx = null;
+    function playDtmfTone(freq1 = 770, freq2 = 1336, duration = 0.08) {
+      if (!appState.soundEnabled) return;
+      try {
+        if (!audioCtx) {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+        const osc1 = audioCtx.createOscillator();
+        const osc2 = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+
+        osc1.frequency.value = freq1;
+        osc2.frequency.value = freq2;
+
+        gainNode.gain.setValueAtTime(0.08, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+
+        osc1.connect(gainNode);
+        osc2.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+
+        osc1.start();
+        osc2.start();
+        osc1.stop(audioCtx.currentTime + duration);
+        osc2.stop(audioCtx.currentTime + duration);
+      } catch (e) {
+        // AudioContext silent fallback
+      }
+    }
+
+    function toggleSound() {
+      appState.soundEnabled = !appState.soundEnabled;
+      const onIcon = document.getElementById('soundOnIcon');
+      const offIcon = document.getElementById('soundOffIcon');
+      if (appState.soundEnabled) {
+        onIcon.classList.remove('hidden');
+        offIcon.classList.add('hidden');
+        playDtmfTone(941, 1336, 0.1);
+      } else {
+        onIcon.classList.add('hidden');
+        offIcon.classList.remove('hidden');
+      }
+    }
+
+    function initTheme() {
+      const isDark = document.documentElement.classList.contains('dark') || 
+        (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      if (isDark) {
+        document.documentElement.classList.add('dark');
+        document.getElementById('sunIcon').classList.remove('hidden');
+        document.getElementById('moonIcon').classList.add('hidden');
+      } else {
+        document.documentElement.classList.remove('dark');
+        document.getElementById('sunIcon').classList.add('hidden');
+        document.getElementById('moonIcon').classList.remove('hidden');
+      }
+    }
+
+    function toggleTheme() {
+      const isDark = document.documentElement.classList.toggle('dark');
+      document.getElementById('sunIcon').classList.toggle('hidden', !isDark);
+      document.getElementById('moonIcon').classList.toggle('hidden', isDark);
+      playDtmfTone(697, 1209, 0.05);
+    }
+
+    function switchMainTab(tab) {
+      const tabs = ['simulator', 'analyzer', 'specs'];
+      tabs.forEach(t => {
+        const btn = document.getElementById(`tabBtn${t.charAt(0).toUpperCase() + t.slice(1)}`);
+        const content = document.getElementById(`tabContent${t.charAt(0).toUpperCase() + t.slice(1)}`);
+        if (t === tab) {
+          btn.className = 'px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all bg-white dark:bg-slate-800 text-brand-600 dark:text-brand-400 shadow-sm flex items-center gap-2';
+          content.classList.remove('hidden');
+        } else {
+          btn.className = 'px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white flex items-center gap-2';
+          content.classList.add('hidden');
+        }
+      });
+      playDtmfTone(852, 1477, 0.06);
+    }
+
+    function renderProvidersUI() {
+      const container = document.getElementById('providersGrid');
+      const tableBody = document.getElementById('providersTableBody');
+      container.innerHTML = '';
+      tableBody.innerHTML = '';
+
+      Object.values(providersData).forEach((prov, idx) => {
+        // Grid cards
+        const isChecked = prov.id === appState.providerKey;
+        const card = document.createElement('label');
+        card.className = 'cursor-pointer relative block';
+        card.innerHTML = `
+          <input type="radio" name="providerOption" value="${prov.id}" ${isChecked ? 'checked' : ''} onchange="setProvider('${prov.id}')" class="peer sr-only">
+          <div class="p-3 sm:p-4 rounded-2xl border-2 border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/90 peer-checked:border-brand-500 peer-checked:bg-brand-50/20 dark:peer-checked:bg-brand-950/20 transition-all text-center">
+            <div class="text-xs sm:text-sm font-extrabold text-slate-800 dark:text-slate-100 truncate">${prov.name}</div>
+            <div class="text-[11px] font-mono font-bold text-brand-600 dark:text-brand-400 mt-1">${prov.shortCode}</div>
+          </div>
+        `;
+        container.appendChild(card);
+
+        // Table Rows
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-50 dark:hover:bg-slate-800/40 transition';
+        tr.innerHTML = `
+          <td class="py-2.5 font-bold text-slate-800 dark:text-slate-200">${prov.name}</td>
+          <td class="py-2.5 text-slate-500 text-[11px]">${prov.type}</td>
+          <td class="py-2.5 font-bold text-brand-600 dark:text-brand-400">${prov.shortCode}</td>
+          <td class="py-2.5 text-slate-500">${prov.merchantSyntax.replace('{id}', 'تاجر').replace('{amt}', 'مبلغ')}</td>
+          <td class="py-2.5 text-slate-500">${prov.friendSyntax.replace('{id}', 'رقم').replace('{amt}', 'مبلغ')}</td>
+        `;
+        tableBody.appendChild(tr);
+      });
+    }
+
+    // Set Provider
+    function setProvider(key) {
+      appState.providerKey = key;
+      const prov = providersData[key];
+      document.getElementById('simCarrierDisplay').textContent = prov.network;
+      document.getElementById('dialerProviderName').textContent = `${prov.name} (${prov.shortCode})`;
+      updateGeneratedUssd();
+      playDtmfTone(770, 1209, 0.06);
+    }
+
+    function setPaymentType(type) {
+      appState.paymentType = type;
+      const btnMerchant = document.getElementById('btnModeMerchant');
+      const btnFriend = document.getElementById('btnModeFriend');
+      const label = document.getElementById('inputLabelTarget');
+      const input = document.getElementById('inputTarget');
+      const badge = document.getElementById('targetBadgeType');
+      const helper = document.getElementById('targetHelperText');
+      const modeBadge = document.getElementById('currentModeBadge');
+
+      if (type === 'merchant') {
+        btnMerchant.className = 'flex flex-col sm:flex-row items-center justify-center gap-2.5 py-3.5 px-4 rounded-2xl border-2 font-black text-sm transition-all duration-200 border-brand-600 bg-brand-50/50 dark:bg-brand-950/30 text-brand-700 dark:text-brand-300 shadow-sm';
+        btnFriend.className = 'flex flex-col sm:flex-row items-center justify-center gap-2.5 py-3.5 px-4 rounded-2xl border-2 font-black text-sm transition-all duration-200 border-slate-200 dark:border-slate-800 bg-transparent text-slate-600 dark:text-slate-400 hover:border-slate-300 dark:hover:border-slate-700';
+        
+        label.textContent = 'معرّف التاجر (Merchant ID)';
+        input.placeholder = 'مثال: 5421';
+        input.value = '5421';
+        badge.textContent = 'تاجر';
+        helper.textContent = 'كود التاجر المسجل في شبكة الدفع (4-6 أرقام)';
+        modeBadge.textContent = 'دفع تجاري (P2M)';
+      } else {
+        btnFriend.className = 'flex flex-col sm:flex-row items-center justify-center gap-2.5 py-3.5 px-4 rounded-2xl border-2 font-black text-sm transition-all duration-200 border-brand-600 bg-brand-50/50 dark:bg-brand-950/30 text-brand-700 dark:text-brand-300 shadow-sm';
+        btnMerchant.className = 'flex flex-col sm:flex-row items-center justify-center gap-2.5 py-3.5 px-4 rounded-2xl border-2 font-black text-sm transition-all duration-200 border-slate-200 dark:border-slate-800 bg-transparent text-slate-600 dark:text-slate-400 hover:border-slate-300 dark:hover:border-slate-700';
+
+        label.textContent = 'رقم جوال الصديق (MSISDN)';
+        input.placeholder = '0599123456 أو 056xxxxxxx';
+        input.value = '0599123456';
+        badge.textContent = 'مستفيد';
+        helper.textContent = 'رقم الهاتف الفلسطيني المعتمد في المحفظة';
+        modeBadge.textContent = 'دفع صديق (P2P)';
+      }
+      handleInputChange();
+      playDtmfTone(697, 1336, 0.07);
+    }
+
+    function handleInputChange() {
+      appState.targetId = document.getElementById('inputTarget').value.trim() || '0';
+      appState.amount = document.getElementById('inputAmount').value.trim() || '0';
+      appState.currency = document.getElementById('currencySelect').value;
+      updateGeneratedUssd();
+    }
+
+    function updateGeneratedUssd() {
+      const prov = providersData[appState.providerKey];
+      let pattern = appState.paymentType === 'merchant' ? prov.merchantSyntax : prov.friendSyntax;
+      
+      const fullString = pattern
+        .replace('{id}', appState.targetId)
+        .replace('{amt}', appState.amount);
+
+      document.getElementById('displayUssdString').textContent = fullString;
+      document.getElementById('dialerInputDisplay').textContent = fullString;
+      
+      const encoded = encodeURIComponent(fullString);
+      document.getElementById('btnTelLink').href = `tel:${encoded}`;
+    }
+
+    function copyUssdCommand() {
+      const str = document.getElementById('displayUssdString').textContent.trim();
+      const tempInput = document.createElement('input');
+      tempInput.value = str;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempInput);
+
+      const toast = document.getElementById('toastNotification');
+      toast.classList.remove('hidden');
+      playDtmfTone(1336, 941, 0.12);
+      setTimeout(() => toast.classList.add('hidden'), 3000);
+    }
+
+    const dtmfFrequencies = {
+      '1': [697, 1209], '2': [697, 1336], '3': [697, 1477],
+      '4': [770, 1209], '5': [770, 1336], '6': [770, 1477],
+      '7': [852, 1209], '8': [852, 1336], '9': [852, 1477],
+      '*': [941, 1209], '0': [941, 1336], '#': [941, 1477]
+    };
+
+    function pressKey(char) {
+      if (dtmfFrequencies[char]) {
+        playDtmfTone(dtmfFrequencies[char][0], dtmfFrequencies[char][1], 0.08);
+      }
+      const display = document.getElementById('dialerInputDisplay');
+      if (display.textContent.trim() === '*789#' || display.textContent.trim() === '*150#') {
+        display.textContent = char;
+      } else {
+        display.textContent += char;
+      }
+    }
+
+    function clearLastKey() {
+      playDtmfTone(697, 1209, 0.04);
+      const display = document.getElementById('dialerInputDisplay');
+      display.textContent = display.textContent.slice(0, -1);
+      if (!display.textContent) {
+        display.textContent = providersData[appState.providerKey].shortCode;
+      }
+    }
+
+    function syncDialerToQuickCode() {
+      updateGeneratedUssd();
+      playDtmfTone(941, 1477, 0.09);
+    }
+
+    function launchInteractiveSimulator() {
+      appState.simState.active = true;
+      appState.simState.step = 1;
+      appState.simState.tempTarget = appState.targetId;
+      appState.simState.tempAmount = appState.amount;
+
+      const prov = providersData[appState.providerKey];
+      document.getElementById('simViewModal').classList.remove('hidden');
+      document.getElementById('modalProviderCode').textContent = prov.shortCode;
+      document.getElementById('modalInputContainer').classList.remove('hidden');
+      document.getElementById('modalBtnSend').classList.remove('hidden');
+
+      const modalInput = document.getElementById('modalUserInput');
+      modalInput.value = '';
+      modalInput.type = 'text';
+
+      playDtmfTone(941, 1336, 0.15);
+
+      // Step 1: Main Menu
+      if (appState.paymentType === 'merchant') {
+        document.getElementById('modalContentText').textContent = 
+          `${prov.name}\n1. دفع تجاري (P2M)\n2. استعلام رصيد المحفظة\n3. كشف حساب مصغر\n0. خروج`;
+        modalInput.placeholder = 'أدخل 1 للمتابعة';
+      } else {
+        document.getElementById('modalContentText').textContent = 
+          `${prov.name}\n1. تحويل لصديق (P2P)\n2. قائمة المستفيدين المحفوظة\n3. طلب أموال\n0. خروج`;
+        modalInput.placeholder = 'أدخل 1 للمتابعة';
+      }
+      setTimeout(() => modalInput.focus(), 150);
+    }
+
+    function submitSimulatorStep() {
+      const inputEl = document.getElementById('modalUserInput');
+      const val = inputEl.value.trim();
+      const prov = providersData[appState.providerKey];
+      const step = appState.simState.step;
+
+      playDtmfTone(770, 1336, 0.07);
+
+      // Step 1: Menu Option Choice
+      if (step === 1) {
+        if (val === '1') {
+          appState.simState.step = 2;
+          inputEl.value = '';
+          if (appState.paymentType === 'merchant') {
+            document.getElementById('modalContentText').textContent = 
+              `أدخل كود التاجر المعتمد (4-6 أرقام):`;
+            inputEl.placeholder = appState.targetId || '5421';
+          } else {
+            document.getElementById('modalContentText').textContent = 
+              `أدخل رقم جوال الصديق (059xxxxxxx):`;
+            inputEl.placeholder = appState.targetId || '0599123456';
+          }
+        } else if (val === '0') {
+          terminateSimulator();
+        } else {
+          document.getElementById('modalContentText').textContent = 
+            `خيار غير صحيح!\nيرجى إدخال 1 للمتابعة أو 0 للخروج.`;
+          inputEl.value = '';
+        }
+        return;
+      }
+
+      // Step 2: Target ID entered -> Prompt Amount
+      if (step === 2) {
+        appState.simState.tempTarget = val || appState.targetId;
+        appState.simState.step = 3;
+        inputEl.value = '';
+        document.getElementById('modalContentText').textContent = 
+          `الاسم المعتمد: ${prov.nameLookup}\nأدخل المبلغ بـ (${appState.currency}):`;
+        inputEl.placeholder = appState.amount || '75';
+        return;
+      }
+
+      // Step 3: Amount entered -> Prompt Secure PIN
+      if (step === 3) {
+        appState.simState.tempAmount = val || appState.amount;
+        appState.simState.step = 4;
+        inputEl.value = '';
+        inputEl.type = 'password';
+        
+        const label = appState.paymentType === 'merchant' ? 'المتجر' : 'المستفيد';
+        document.getElementById('modalContentText').textContent = 
+          `تأكيد المعاملة المالية:\nإلى ${label}: ${appState.simState.tempTarget}\nالقيمة: ${appState.simState.tempAmount} ${appState.currency}\nعمولة المعاملة: 0.00 ₪\n\nأدخل الرمز السري (PIN):`;
+        inputEl.placeholder = '****';
+        return;
+      }
+
+      // Step 4: PIN Authentication & HSM verification
+      if (step === 4) {
+        if (val === '1234') {
+          appState.simState.step = 5;
+          document.getElementById('modalInputContainer').classList.add('hidden');
+          document.getElementById('modalBtnSend').classList.add('hidden');
+
+          const rrn = Math.floor(10000000 + Math.random() * 90000000);
+          playDtmfTone(1336, 1209, 0.25);
+          
+          document.getElementById('modalContentText').textContent = 
+            `✔ تمت العملية بنجاح!\nالمبلغ: ${appState.simState.tempAmount} ${appState.currency}\nرقم المرجع (RRN): ${rrn}\nتم قيد الحساب لدى سلطة النقد (PMA).\nستصلك رسالة SMS فورية.`;
+        } else {
+          inputEl.value = '';
+          playDtmfTone(941, 1209, 0.2);
+          document.getElementById('modalContentText').textContent = 
+            `❌ الرمز السري غير صحيح!\nملاحظة للتجربة: أدخل الرمز السري (1234).\nأعد إدخال الرمز السري:`;
+        }
+      }
+    }
+
+    function terminateSimulator() {
+      appState.simState.active = false;
+      appState.simState.step = 0;
+      document.getElementById('simViewModal').classList.add('hidden');
+      playDtmfTone(852, 1209, 0.08);
+    }
+
+    // Keyboard 'Enter' key inside simulation terminal input
+    document.getElementById('modalUserInput').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') submitSimulatorStep();
+    });
+
+    function analyzeTextEncoding() {
+      const text = document.getElementById('analyzerTextInput').value;
+      const charCount = text.length;
+      
+      // Check if text has Arabic or non-GSM characters
+      // GSM 7-bit standard range approx: [\\x20-\\x7E] plus specific extensions
+      const hasArabicOrUnicode = /[^\u0020-\u007E\r\n\t]/.test(text);
+
+      const limit = hasArabicOrUnicode ? 70 : 160;
+      const detectedType = hasArabicOrUnicode ? 'UCS-2 (عربي/يونيكود)' : 'GSM 7-bit (لاتيني)';
+      
+      document.getElementById('analyzerCharCount').textContent = `${charCount} حرف`;
+      document.getElementById('analyzerLimitDisplay').textContent = `الحد الأقصى: ${limit} حرفاً (${hasArabicOrUnicode ? 'UCS-2' : 'GSM 7-bit'})`;
+      document.getElementById('detectedEncodingBadge').textContent = detectedType;
+
+      const bytesUsed = hasArabicOrUnicode ? charCount * 2 : Math.ceil(charCount * 7 / 8);
+      document.getElementById('payloadBytes').textContent = `${bytesUsed} Bytes / 140 Bytes`;
+
+      const screenCount = Math.ceil(charCount / limit) || 1;
+      document.getElementById('screenCountBadge').textContent = `${screenCount} ${screenCount > 1 ? 'شاشات متتابعة' : 'شاشة واحدة'}`;
+
+      const pct = Math.min(100, Math.round((charCount / limit) * 100));
+      const prog = document.getElementById('analyzerProgress');
+      const warningBox = document.getElementById('analyzerWarningBox');
+
+      prog.style.width = `${pct}%`;
+
+      if (charCount > limit) {
+        prog.className = 'bg-rose-500 h-full transition-all duration-300';
+        warningBox.classList.remove('hidden');
+      } else {
+        prog.className = 'bg-brand-500 h-full transition-all duration-300';
+        warningBox.classList.add('hidden');
+      }
+    }
+
+    function loadSampleText() {
+      const sample = `دفع لتاجر: سوبرماركت القدس\nالقيمة: 75 شيكل\nأدخل الرمز السري:`;
+      document.getElementById('analyzerTextInput').value = sample;
+      analyzeTextEncoding();
+      playDtmfTone(1209, 1336, 0.08);
+    }
+
+    // Initial Bootstrap
+    window.addEventListener('DOMContentLoaded', () => {
+      initTheme();
+      renderProvidersUI();
+      updateGeneratedUssd();
+      analyzeTextEncoding();
+    });
+  </script>
+</body>
+</html>
