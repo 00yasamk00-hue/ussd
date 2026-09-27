@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>بوابة ومدفوعات USSD المصرفية | فلسطين</title>
+  <title>بوابة الدفع الإلكتروني | فلسطين</title>
   
-  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -13,26 +12,20 @@
       theme: {
         extend: {
           colors: {
-            brand: {
-              50: '#ecfdf5',
-              100: '#d1fae5',
-              500: '#10b981',
-              600: '#059669',
-              700: '#047857',
-              800: '#065f46',
-              900: '#064e3b',
-            }
+            // تعريف ألوان مخصصة لكل مزود
+            bop: { 500: '#f59e0b', 600: '#d97706', 900: '#78350f' },     // بنك فلسطين (برتقالي/عنبري)
+            palpay: { 500: '#0ea5e9', 600: '#0284c7', 900: '#0c4a6e' },  // بال بي (أزرق سماوي)
+            jawwal: { 500: '#e11d48', 600: '#be123c', 900: '#881337' },  // جوال بي (أحمر وردي)
           },
           fontFamily: {
-            sans: ['Cairo', 'Tajawal', 'Segoe UI', 'sans-serif'],
-            mono: ['Consolas', 'Courier New', 'monospace'],
+            sans: ['Cairo', 'Tajawal', 'sans-serif'],
+            mono: ['Consolas', 'monospace'],
           }
         }
       }
     }
   </script>
 
-  <!-- Google Fonts: Cairo & Tajawal -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
@@ -42,770 +35,304 @@
       font-family: 'Cairo', 'Tajawal', sans-serif;
       -webkit-tap-highlight-color: transparent;
     }
-    .custom-scrollbar::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
+    /* تأثيرات حركية ناعمة للتبويبات */
+    .tab-btn {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    .custom-scrollbar::-webkit-scrollbar-track {
-      background: transparent;
+    .tab-content-enter {
+      animation: fadeIn 0.4s ease-out forwards;
     }
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-      background: rgba(100, 116, 139, 0.4);
-      border-radius: 9999px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-      background: rgba(100, 116, 139, 0.7);
-    }
-    @keyframes pulse-subtle {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.6; }
-    }
-    .animate-pulse-subtle {
-      animation: pulse-subtle 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
-<body class="bg-slate-100 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen transition-colors duration-300 flex flex-col justify-between selection:bg-brand-500 selection:text-white">
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen transition-colors duration-300 flex flex-col items-center">
 
-  <header class="sticky top-0 z-50 backdrop-blur-lg bg-white/85 dark:bg-slate-900/85 border-b border-slate-200 dark:border-slate-800 transition-colors shadow-sm">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-      
-      <!-- Brand & Title -->
-      <div class="flex items-center space-x-3 space-x-reverse">
-        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-brand-600 to-emerald-400 flex items-center justify-center text-white shadow-lg shadow-brand-500/25 font-black text-xl">
-          *#
-        </div>
-        <div>
-          <div class="flex items-center gap-2">
-            <h1 class="text-base sm:text-lg font-black tracking-tight leading-none">بوابة مدفوعات USSD المصرفية</h1>
-            <span class="text-[10px] uppercase font-bold bg-brand-500/10 text-brand-600 dark:text-brand-400 px-2 py-0.5 rounded-full border border-brand-500/20">
-              PMA Ready
-            </span>
-          </div>
-          <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5 hidden sm:block">
-            نظام متوافق مع معايير سلطة النقد وشبكتي جوال وأوريدو فلسطين
-          </p>
-        </div>
+  <header class="w-full max-w-4xl mx-auto px-4 py-6 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-slate-700 to-slate-500 dark:from-slate-600 dark:to-slate-400 flex items-center justify-center text-white shadow-lg font-black text-2xl">
+        ₪
       </div>
-
-      <!-- Action Nav & Mode Toggles -->
-      <div class="flex items-center space-x-2 space-x-reverse">
-        <!-- Audio Mute/Unmute Toggle -->
-        <button id="soundToggleBtn" onclick="toggleSound()" class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition" title="المؤثرات الصوتية">
-          <svg id="soundOnIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
-          <svg id="soundOffIcon" class="w-5 h-5 hidden text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"/></svg>
-        </button>
-
-        <!-- Theme Toggle -->
-        <button id="themeToggleBtn" onclick="toggleTheme()" class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition" aria-label="تبديل النمط">
-          <svg id="sunIcon" class="w-5 h-5 hidden text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 9H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
-          <svg id="moonIcon" class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
-        </button>
+      <div>
+        <h1 class="text-xl md:text-2xl font-black tracking-tight">بوابة الدفع السريع</h1>
+        <p class="text-xs md:text-sm text-slate-500 dark:text-slate-400 font-semibold mt-1">
+          نظام محاكاة الدفع الإلكتروني الموحد
+        </p>
       </div>
     </div>
+
+    <!-- Theme Toggle Button -->
+    <button onclick="toggleTheme()" class="p-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all shadow-sm" aria-label="تبديل النمط">
+      <!-- Sun Icon -->
+      <svg id="sunIcon" class="w-6 h-6 hidden text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 9H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+      <!-- Moon Icon -->
+      <svg id="moonIcon" class="w-6 h-6 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+    </button>
   </header>
 
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full flex-1">
+  <main class="w-full max-w-4xl mx-auto px-4 py-4 flex-1">
     
-    <!-- Tab Navigation Bar -->
-    <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-4 mb-6 gap-3 flex-wrap">
-      <div class="flex items-center space-x-2 space-x-reverse bg-slate-200/70 dark:bg-slate-900 p-1.5 rounded-2xl border border-slate-300/50 dark:border-slate-800">
-        <div class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white dark:bg-slate-800 text-brand-600 dark:text-brand-400 shadow-sm flex items-center gap-2">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
-          المحاكي التفاعلي ومولّد أكواد USSD
-        </div>
-      </div>
-
-      <div class="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
-        <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse-subtle"></span>
-        <span>بوابة USSDC: <span class="font-bold text-slate-700 dark:text-slate-200">جاهزة للمعالجة</span></span>
-      </div>
-    </div>
-
-    <div id="tabContentSimulator" class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+    <!-- Tabs Navigation -->
+    <div class="bg-white dark:bg-slate-900 p-2 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col md:flex-row gap-2 mb-8">
       
-      <!-- Left Configurator Section (7 cols) -->
-      <section class="lg:col-span-7 space-y-6">
-        
-        <!-- Transaction Type Selection -->
-        <div class="bg-white dark:bg-slate-900 rounded-3xl p-5 sm:p-6 border border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
-          <div class="flex items-center justify-between mb-4">
-            <h2 class="text-sm sm:text-base font-extrabold flex items-center gap-2 text-slate-800 dark:text-slate-100">
-              <span class="p-2 rounded-xl bg-brand-500/10 text-brand-600 dark:text-brand-400">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
-              </span>
-              تحديد نوع المعاملة المالية
-            </h2>
-            <span class="text-xs font-semibold px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300" id="currentModeBadge">
-              دفع فوري مباشر
-            </span>
-          </div>
+      <!-- Tab 1: Bank of Palestine -->
+      <button onclick="switchTab('bop')" id="tab-bop" class="tab-btn flex-1 py-4 px-6 rounded-2xl font-black text-sm md:text-base border-2 border-transparent text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 flex items-center justify-center gap-2">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"/></svg>
+        بنك فلسطين
+      </button>
 
-          <div class="grid grid-cols-2 gap-3">
-            <button type="button" id="btnModeMerchant" onclick="setPaymentType('merchant')" class="flex flex-col sm:flex-row items-center justify-center gap-2.5 py-3.5 px-4 rounded-2xl border-2 font-black text-sm transition-all duration-200 border-brand-600 bg-brand-50/50 dark:bg-brand-950/30 text-brand-700 dark:text-brand-300 shadow-sm">
-              <svg class="w-5 h-5 text-brand-600 dark:text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
-              <span>دفع تجاري (P2M)</span>
-            </button>
-            <button type="button" id="btnModeFriend" onclick="setPaymentType('friend')" class="flex flex-col sm:flex-row items-center justify-center gap-2.5 py-3.5 px-4 rounded-2xl border-2 font-black text-sm transition-all duration-200 border-slate-200 dark:border-slate-800 bg-transparent text-slate-600 dark:text-slate-400 hover:border-slate-300 dark:hover:border-slate-700">
-              <svg class="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
-              <span>دفع صديق (P2P)</span>
-            </button>
-          </div>
-        </div>
+      <!-- Tab 2: PalPay -->
+      <button onclick="switchTab('palpay')" id="tab-palpay" class="tab-btn flex-1 py-4 px-6 rounded-2xl font-black text-sm md:text-base border-2 border-transparent text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 flex items-center justify-center gap-2">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
+        محفظة بال بي
+      </button>
 
-        <div class="bg-white dark:bg-slate-900 rounded-3xl p-5 sm:p-6 border border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
-          <label class="block text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3">
-            المزوّد البنكي أو المحفظة الإلكترونية في فلسطين
-          </label>
-          <div class="grid grid-cols-2 sm:grid-cols-3 gap-3" id="providersGrid">
-            <!-- Dynamic provider buttons rendered via JS -->
-          </div>
-        </div>
-
-        <!-- Form Details (Target ID & Amount) -->
-        <div class="bg-white dark:bg-slate-900 rounded-3xl p-5 sm:p-6 border border-slate-200 dark:border-slate-800 shadow-sm transition-colors space-y-4">
-          <h3 class="text-sm sm:text-base font-extrabold flex items-center gap-2 text-slate-800 dark:text-slate-100">
-            <span class="p-2 rounded-xl bg-brand-500/10 text-brand-600 dark:text-brand-400">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-            </span>
-            بيانات العملية والمبلغ
-          </h3>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <!-- Target Identifier -->
-            <div>
-              <label id="inputLabelTarget" class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
-                معرّف التاجر (Merchant ID)
-              </label>
-              <div class="relative">
-                <input type="text" id="inputTarget" value="5421" oninput="handleInputChange()" placeholder="مثال: 5421" class="w-full rounded-2xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 px-4 py-3 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500 transition">
-                <span id="targetBadgeType" class="absolute left-3 top-3 text-[11px] font-bold bg-slate-200 dark:bg-slate-700 px-2 py-0.5 rounded-lg text-slate-700 dark:text-slate-300">
-                  تاجر
-                </span>
-              </div>
-              <p class="text-[11px] text-slate-400 mt-1" id="targetHelperText">كود التاجر المسجل في شبكة الدفع (4-6 أرقام)</p>
-            </div>
-
-            <!-- PIN Input (Conditional for Jawwal Pay P2P) -->
-            <div id="pinContainer" class="hidden">
-              <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
-                الرقم السري للمحفظة (PIN)
-              </label>
-              <div class="relative">
-                <input type="password" maxlength="6" id="inputPin" value="1234" oninput="handleInputChange()" placeholder="الرقم السري" class="w-full rounded-2xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 px-4 py-3 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500 transition font-mono tracking-widest">
-              </div>
-              <p class="text-[11px] text-slate-400 mt-1">يُدمج مباشرة في سلسلة الـ USSD وفق كود جوال باي</p>
-            </div>
-
-            <!-- Amount Input & Currency -->
-            <div>
-              <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
-                المبلغ المراد تحويله
-              </label>
-              <div class="relative flex">
-                <input type="number" id="inputAmount" value="75" min="1" max="2500" oninput="handleInputChange()" placeholder="0.00" class="w-full rounded-2xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 px-4 py-3 text-sm font-black font-mono focus:outline-none focus:ring-2 focus:ring-brand-500 transition">
-                <div class="absolute left-2 top-2">
-                  <select id="currencySelect" onchange="handleInputChange()" class="bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-100 text-xs font-bold py-1.5 px-2.5 rounded-xl border-none outline-none cursor-pointer">
-                    <option value="ILS">₪ شيكل</option>
-                    <option value="JOD">JD دينار</option>
-                    <option value="USD">$ دولار</option>
-                  </select>
-                </div>
-              </div>
-              <p class="text-[11px] text-slate-400 mt-1">الحد اليومي لتعليمات سلطة النقد (PMA): 2,000 شيكل</p>
-            </div>
-          </div>
-
-          <div class="pt-4 border-t border-slate-200 dark:border-slate-800">
-            <div class="flex items-center justify-between mb-2">
-              <span class="text-xs font-extrabold text-slate-500 dark:text-slate-400">
-                سلسلة الـ USSD المباشرة (Quick String):
-              </span>
-              <span class="text-[11px] font-bold text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-brand-950/40 px-2 py-0.5 rounded-md border border-brand-500/20">
-                جاهزة للطلب المباشر
-              </span>
-            </div>
-
-            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-              <div class="flex-1 bg-slate-950 text-emerald-400 font-mono font-bold text-base sm:text-lg px-4 py-3.5 rounded-2xl border border-slate-800 tracking-wider text-left overflow-x-auto select-all custom-scrollbar flex items-center justify-between" dir="ltr">
-                <span id="displayUssdString">*789*1*5421*75#</span>
-                <span class="text-xs text-slate-500 font-normal">USSD</span>
-              </div>
-              <div class="flex items-center gap-2">
-                <button onclick="copyUssdCommand()" class="flex-1 sm:flex-none p-3.5 rounded-2xl bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 transition flex items-center justify-center gap-1.5 text-xs font-bold" title="نسخ الكود">
-                  <svg class="w-4 h-4 text-slate-700 dark:text-slate-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
-                  <span class="sm:hidden">نسخ</span>
-                </button>
-                <a id="btnTelLink" href="tel:*789*1*5421*75%23" class="flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-3.5 rounded-2xl bg-brand-600 hover:bg-brand-700 text-white font-black text-sm shadow-md shadow-brand-600/30 transition">
-                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
-                  اتصال USSD
-                </a>
-              </div>
-            </div>
-            
-            <div id="toastNotification" class="hidden text-xs text-brand-600 dark:text-brand-400 font-bold mt-2 flex items-center gap-1.5">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-              تم نسخ كود الـ USSD بنجاح إلى الحافظة!
-            </div>
-          </div>
-        </div>
-
-        <!-- Provider Direct Codes Comparison Table -->
-        <div class="bg-white dark:bg-slate-900 rounded-3xl p-5 sm:p-6 border border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
-          <h4 class="text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3">
-            جدول المزودين والأكواد المعتمدة في السوق الفلسطيني
-          </h4>
-          <div class="overflow-x-auto custom-scrollbar">
-            <table class="w-full text-right text-xs">
-              <thead>
-                <tr class="border-b border-slate-200 dark:border-slate-800 text-slate-400">
-                  <th class="pb-2 font-bold">المزوّد</th>
-                  <th class="pb-2 font-bold">النوع</th>
-                  <th class="pb-2 font-bold">كود الخدمة</th>
-                  <th class="pb-2 font-bold">قالب دفع تجاري</th>
-                  <th class="pb-2 font-bold">قالب دفع صديق</th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-slate-100 dark:divide-slate-800/60 font-mono" id="providersTableBody">
-                <!-- Injected via JS -->
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-      </section>
+      <!-- Tab 3: Jawwal Pay -->
+      <button onclick="switchTab('jawwal')" id="tab-jawwal" class="tab-btn flex-1 py-4 px-6 rounded-2xl font-black text-sm md:text-base border-2 border-transparent text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 flex items-center justify-center gap-2">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+        محفظة جوال بي
+      </button>
 
     </div>
 
-    <!-- Analyzer and Specs sections removed completely as requested -->
+    <!-- Form Area -->
+    <div id="formContainer" class="bg-white dark:bg-slate-900 rounded-[2rem] p-6 md:p-10 border border-slate-200 dark:border-slate-800 shadow-xl tab-content-enter transition-all duration-300">
+      
+      <div class="flex items-center gap-3 mb-8">
+        <div id="providerIcon" class="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl transition-colors duration-300">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        </div>
+        <div>
+          <h2 id="providerTitle" class="text-xl font-black text-slate-800 dark:text-white">يرجى اختيار مزود الخدمة</h2>
+          <p id="providerSubtitle" class="text-sm text-slate-500 dark:text-slate-400 font-semibold mt-1">أدخل بيانات العملية أدناه</p>
+        </div>
+      </div>
+
+      <form id="paymentForm" onsubmit="handleFormSubmit(event)" class="space-y-6 hidden">
+        
+        <!-- Dropdown: Payment Type -->
+        <div>
+          <label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
+            نوع العملية
+          </label>
+          <div class="relative">
+            <select id="paymentType" onchange="updateLabels()" class="w-full appearance-none rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-5 py-4 text-base font-bold text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-0 transition-colors cursor-pointer">
+              <option value="merchant">دفع للتاجر (P2M)</option>
+              <option value="friend">دفع لصديق (P2P)</option>
+            </select>
+            <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center px-5 text-slate-500">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Input: Number (Merchant ID or Friend Number) -->
+        <div>
+          <label id="targetLabel" class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
+            رقم التاجر
+          </label>
+          <input type="number" id="targetNumber" placeholder="أدخل الرقم هنا..." required class="w-full rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-5 py-4 text-lg font-bold text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-0 transition-colors placeholder:font-normal placeholder:text-slate-400">
+        </div>
+
+        <!-- Input: Amount -->
+        <div>
+          <label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
+            المبلغ المراد دفعه
+          </label>
+          <div class="relative flex items-center">
+            <input type="number" id="amount" placeholder="0.00" required min="1" step="0.01" class="w-full rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-5 py-4 text-xl font-black font-mono text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-0 transition-colors">
+            <span class="absolute left-5 font-bold text-slate-500 dark:text-slate-400 bg-slate-200 dark:bg-slate-700 px-3 py-1 rounded-lg">شيكل ₪</span>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="pt-4">
+          <button type="submit" id="submitBtn" class="w-full py-4 rounded-2xl font-black text-lg text-white shadow-xl transition-all transform hover:-translate-y-1 active:translate-y-0 flex items-center justify-center gap-3">
+            <span>تنفيذ العملية</span>
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+          </button>
+        </div>
+      </form>
+
+      <!-- Placeholder before selecting a tab -->
+      <div id="emptyState" class="text-center py-12">
+        <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 mb-4">
+          <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"/></svg>
+        </div>
+        <h3 class="text-lg font-bold text-slate-600 dark:text-slate-300">الرجاء اختيار مزود الخدمة من الأعلى</h3>
+        <p class="text-slate-400 dark:text-slate-500 text-sm mt-2">لتتمكن من إدخال بيانات الدفع وإتمام العملية</p>
+      </div>
+
+    </div>
+    
+    <!-- Result Overlay (Custom MessageBox instead of alert) -->
+    <div id="resultOverlay" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+      <div class="bg-white dark:bg-slate-900 rounded-3xl p-8 max-w-sm w-full shadow-2xl transform transition-all text-center border border-slate-200 dark:border-slate-800">
+        <div id="resultIcon" class="w-20 h-20 mx-auto rounded-full flex items-center justify-center text-white mb-6">
+          <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </div>
+        <h3 class="text-2xl font-black text-slate-800 dark:text-white mb-2">ملخص العملية</h3>
+        <p id="resultText" class="text-slate-600 dark:text-slate-400 font-bold mb-6 text-sm leading-relaxed"></p>
+        <button onclick="closeResult()" class="w-full py-3 rounded-xl bg-slate-800 dark:bg-slate-100 text-white dark:text-slate-900 font-bold hover:opacity-90 transition-opacity">
+          حسناً، إغلاق
+        </button>
+      </div>
+    </div>
 
   </main>
 
-  <footer class="mt-8 border-t border-slate-200 dark:border-slate-800 bg-white/60 dark:bg-slate-900/60 backdrop-blur-md py-6 text-center text-xs text-slate-500 dark:text-slate-400">
-    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
-      <div class="flex items-center gap-2">
-        <span class="w-2 h-2 rounded-full bg-brand-500"></span>
-        <span>بوابة حلول USSD للمدفوعات المصرفية الفلسطينية - جاهز للتكامل مع سلطة النقد (PMA)</span>
-      </div>
-      <div>
-        <span>دعم المشغلين: Jawwal • Ooredoo • 1948 Switch</span>
-      </div>
-    </div>
-  </footer>
-
   <script>
-    // State Management
-    const appState = {
-      paymentType: 'merchant', // 'merchant' | 'friend'
-      providerKey: 'jawwal',
-      amount: '75',
-      targetId: '5421',
-      pin: '1234',
-      currency: 'ILS',
-      soundEnabled: true,
-      simState: {
-        active: false,
-        step: 0,
-        tempTarget: '',
-        tempAmount: '',
-        tempPin: ''
-      }
-    };
-
-    // Palestinian Banking & Wallets Directory (Jawwal Pay, PalPay, BOP)
-    const providersData = {
-      jawwal: {
-        id: 'jawwal',
-        name: 'جوال باي (Jawwal Pay)',
-        shortCode: '*110#',
-        rawPrefix: '*110',
-        type: 'محفظة إلكترونية',
-        themeColor: 'rose',
-        network: 'Jawwal 4G',
-        merchantSyntax: '*110*2*{id}*{amt}#',
-        friendSyntax: '*110*1*{pin}*{id}*{amt}#',
-        requiresPinInString: true,
-        nameLookup: 'سوبرماركت القدس (جوال باي)'
-      },
-      palpay: {
-        id: 'palpay',
-        name: 'بال باي (محفظتي)',
-        shortCode: '*370#',
-        rawPrefix: '*370',
-        type: 'محفظة وبنك',
-        themeColor: 'sky',
-        network: 'Jawwal/Ooredoo',
-        merchantSyntax: '*370*2*{id}*{amt}#',
-        friendSyntax: '*370*1*1*{id}*{amt}#',
-        requiresPinInString: false,
-        nameLookup: 'متجر السلام التجاري (PalPay)'
-      },
-      bop: {
-        id: 'bop',
-        name: 'بنك فلسطين (BOP)',
-        shortCode: '*267#',
-        rawPrefix: '*267#',
-        type: 'بنك تجاري',
-        themeColor: 'amber',
-        network: 'Ooredoo 3G',
-        merchantSyntax: '*267*5*{id}*{amt}#',
-        friendSyntax: '*267*1*{id}*{amt}#',
-        requiresPinInString: false,
-        nameLookup: 'شركة الأمل للتجارة (بنك فلسطين)'
-      }
-    };
-
-    // Palestinian Banking & Wallets Directory
-    const providersData = {
-      jawwal: {
-        id: 'jawwal',
-        name: 'جوال باي (Jawwal Pay)',
-        shortCode: '*789#',
-        rawPrefix: '*789',
-        type: 'محفظة إلكترونية',
-        themeColor: 'rose',
-        network: 'Jawwal 4G',
-        merchantSyntax: '*789*1*{id}*{amt}#',
-        friendSyntax: '*789*2*{id}*{amt}#',
-        nameLookup: 'سوبرماركت القدس (جوال باي)'
-      },
-      palpay: {
-        id: 'palpay',
-        name: 'بال باي (محفظتي)',
-        shortCode: '*150#',
-        rawPrefix: '*150',
-        type: 'محفظة وبنك',
-        themeColor: 'sky',
-        network: 'Jawwal/Ooredoo',
-        merchantSyntax: '*150*1*{id}*{amt}#',
-        friendSyntax: '*150*2*{id}*{amt}#',
-        nameLookup: 'متجر السلام التجاري (PalPay)'
-      },
-      bop: {
-        id: 'bop',
-        name: 'بنك فلسطين (BOP)',
-        shortCode: '*140#',
-        rawPrefix: '*140',
-        type: 'بنك تجاري',
-        themeColor: 'amber',
-        network: 'Ooredoo 3G',
-        merchantSyntax: '*140*5*{id}*{amt}#',
-        friendSyntax: '*140*1*{id}*{amt}#',
-        nameLookup: 'شركة الأمل للتجارة (بنك فلسطين)'
-      },
-      quds: {
-        id: 'quds',
-        name: 'بنك القدس',
-        shortCode: '*111#',
-        rawPrefix: '*111',
-        type: 'بنك تجاري',
-        themeColor: 'indigo',
-        network: 'Jawwal 4G',
-        merchantSyntax: '*111*2*{id}*{amt}#',
-        friendSyntax: '*111*3*{id}*{amt}#',
-        nameLookup: 'صيدلية النور (بنك القدس)'
-      },
-      pib: {
-        id: 'pib',
-        name: 'الإسلامي الفلسطيني (PIB)',
-        shortCode: '*222#',
-        rawPrefix: '*222',
-        type: 'مصرف إسلامي',
-        themeColor: 'emerald',
-        network: 'Jawwal 4G',
-        merchantSyntax: '*222*1*{id}*{amt}#',
-        friendSyntax: '*222*2*{id}*{amt}#',
-        nameLookup: 'معرض التقنية (الإسلامي الفلسطيني)'
-      }
-    };
-
-    // Web Audio API for DTMF Keypad Tones
-    let audioCtx = null;
-    function playDtmfTone(freq1 = 770, freq2 = 1336, duration = 0.08) {
-      if (!appState.soundEnabled) return;
-      try {
-        if (!audioCtx) {
-          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        }
-        if (audioCtx.state === 'suspended') {
-          audioCtx.resume();
-        }
-        const osc1 = audioCtx.createOscillator();
-        const osc2 = audioCtx.createOscillator();
-        const gainNode = audioCtx.createGain();
-
-        osc1.frequency.value = freq1;
-        osc2.frequency.value = freq2;
-
-        gainNode.gain.setValueAtTime(0.08, audioCtx.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
-
-        osc1.connect(gainNode);
-        osc2.connect(gainNode);
-        gainNode.connect(audioCtx.destination);
-
-        osc1.start();
-        osc2.start();
-        osc1.stop(audioCtx.currentTime + duration);
-        osc2.stop(audioCtx.currentTime + duration);
-      } catch (e) {
-        // AudioContext silent fallback
-      }
-    }
-
-    function toggleSound() {
-      appState.soundEnabled = !appState.soundEnabled;
-      const onIcon = document.getElementById('soundOnIcon');
-      const offIcon = document.getElementById('soundOffIcon');
-      if (appState.soundEnabled) {
-        onIcon.classList.remove('hidden');
-        offIcon.classList.add('hidden');
-        playDtmfTone(941, 1336, 0.1);
-      } else {
-        onIcon.classList.add('hidden');
-        offIcon.classList.remove('hidden');
-      }
-    }
-
+    // Theme Management
     function initTheme() {
       const isDark = document.documentElement.classList.contains('dark') || 
         (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
-      if (isDark) {
-        document.documentElement.classList.add('dark');
-        document.getElementById('sunIcon').classList.remove('hidden');
-        document.getElementById('moonIcon').classList.add('hidden');
-      } else {
-        document.documentElement.classList.remove('dark');
-        document.getElementById('sunIcon').classList.add('hidden');
-        document.getElementById('moonIcon').classList.remove('hidden');
-      }
+      applyTheme(isDark);
     }
 
     function toggleTheme() {
       const isDark = document.documentElement.classList.toggle('dark');
+      applyTheme(isDark);
+    }
+
+    function applyTheme(isDark) {
       document.getElementById('sunIcon').classList.toggle('hidden', !isDark);
       document.getElementById('moonIcon').classList.toggle('hidden', isDark);
-      playDtmfTone(697, 1209, 0.05);
     }
 
-    function switchMainTab(tab) {
-      const tabs = ['simulator', 'analyzer', 'specs'];
-      tabs.forEach(t => {
-        const btn = document.getElementById(`tabBtn${t.charAt(0).toUpperCase() + t.slice(1)}`);
-        const content = document.getElementById(`tabContent${t.charAt(0).toUpperCase() + t.slice(1)}`);
-        if (t === tab) {
-          btn.className = 'px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all bg-white dark:bg-slate-800 text-brand-600 dark:text-brand-400 shadow-sm flex items-center gap-2';
-          content.classList.remove('hidden');
-        } else {
-          btn.className = 'px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white flex items-center gap-2';
-          content.classList.add('hidden');
-        }
-      });
-      playDtmfTone(852, 1477, 0.06);
-    }
-
-    function renderProvidersUI() {
-      const container = document.getElementById('providersGrid');
-      const tableBody = document.getElementById('providersTableBody');
-      container.innerHTML = '';
-      tableBody.innerHTML = '';
-
-      Object.values(providersData).forEach((prov, idx) => {
-        // Grid cards
-        const isChecked = prov.id === appState.providerKey;
-        const card = document.createElement('label');
-        card.className = 'cursor-pointer relative block';
-        card.innerHTML = `
-          <input type="radio" name="providerOption" value="${prov.id}" ${isChecked ? 'checked' : ''} onchange="setProvider('${prov.id}')" class="peer sr-only">
-          <div class="p-3 sm:p-4 rounded-2xl border-2 border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/90 peer-checked:border-brand-500 peer-checked:bg-brand-50/20 dark:peer-checked:bg-brand-950/20 transition-all text-center">
-            <div class="text-xs sm:text-sm font-extrabold text-slate-800 dark:text-slate-100 truncate">${prov.name}</div>
-            <div class="text-[11px] font-mono font-bold text-brand-600 dark:text-brand-400 mt-1">${prov.shortCode}</div>
-          </div>
-        `;
-        container.appendChild(card);
-
-        // Table Rows
-        const tr = document.createElement('tr');
-        tr.className = 'hover:bg-slate-50 dark:hover:bg-slate-800/40 transition';
-        tr.innerHTML = `
-          <td class="py-2.5 font-bold text-slate-800 dark:text-slate-200">${prov.name}</td>
-          <td class="py-2.5 text-slate-500 text-[11px]">${prov.type}</td>
-          <td class="py-2.5 font-bold text-brand-600 dark:text-brand-400">${prov.shortCode}</td>
-          <td class="py-2.5 text-slate-500">${prov.merchantSyntax.replace('{id}', 'تاجر').replace('{amt}', 'مبلغ')}</td>
-          <td class="py-2.5 text-slate-500">${prov.friendSyntax.replace('{id}', 'رقم').replace('{amt}', 'مبلغ')}</td>
-        `;
-        tableBody.appendChild(tr);
-      });
-    }
-
-    // Set Provider
-    function setProvider(key) {
-      appState.providerKey = key;
-      const prov = providersData[key];
-      document.getElementById('simCarrierDisplay').textContent = prov.network;
-      document.getElementById('dialerProviderName').textContent = `${prov.name} (${prov.shortCode})`;
-      updateGeneratedUssd();
-      playDtmfTone(770, 1209, 0.06);
-    }
-
-    function setPaymentType(type) {
-      appState.paymentType = type;
-      const btnMerchant = document.getElementById('btnModeMerchant');
-      const btnFriend = document.getElementById('btnModeFriend');
-      const label = document.getElementById('inputLabelTarget');
-      const input = document.getElementById('inputTarget');
-      const badge = document.getElementById('targetBadgeType');
-      const helper = document.getElementById('targetHelperText');
-      const modeBadge = document.getElementById('currentModeBadge');
-      const pinContainer = document.getElementById('pinContainer');
-
-      if (type === 'merchant') {
-        btnMerchant.className = 'flex flex-col sm:flex-row items-center justify-center gap-2.5 py-3.5 px-4 rounded-2xl border-2 font-black text-sm transition-all duration-200 border-brand-600 bg-brand-50/50 dark:bg-brand-950/30 text-brand-700 dark:text-brand-300 shadow-sm';
-        btnFriend.className = 'flex flex-col sm:flex-row items-center justify-center gap-2.5 py-3.5 px-4 rounded-2xl border-2 font-black text-sm transition-all duration-200 border-slate-200 dark:border-slate-800 bg-transparent text-slate-600 dark:text-slate-400 hover:border-slate-300 dark:hover:border-slate-700';
-        
-        label.textContent = 'معرّف التاجر (Merchant ID)';
-        input.placeholder = 'مثال: 5421';
-        input.value = '5421';
-        badge.textContent = 'تاجر';
-        helper.textContent = 'كود التاجر المسجل في شبكة الدفع (4-6 أرقام)';
-        modeBadge.textContent = 'دفع تجاري (P2M)';
-        pinContainer.classList.add('hidden');
-      } else {
-        btnFriend.className = 'flex flex-col sm:flex-row items-center justify-center gap-2.5 py-3.5 px-4 rounded-2xl border-2 font-black text-sm transition-all duration-200 border-brand-600 bg-brand-50/50 dark:bg-brand-950/30 text-brand-700 dark:text-brand-300 shadow-sm';
-        btnMerchant.className = 'flex flex-col sm:flex-row items-center justify-center gap-2.5 py-3.5 px-4 rounded-2xl border-2 font-black text-sm transition-all duration-200 border-slate-200 dark:border-slate-800 bg-transparent text-slate-600 dark:text-slate-400 hover:border-slate-300 dark:hover:border-slate-700';
-
-        label.textContent = 'رقم جوال الصديق (MSISDN)';
-        input.placeholder = '0599123456 أو 056xxxxxxx';
-        input.value = '0599123456';
-        badge.textContent = 'مستفيد';
-        helper.textContent = 'رقم الهاتف الفلسطيني المعتمد في المحفظة';
-        modeBadge.textContent = 'دفع صديق (P2P)';
-
-        if (providersData[appState.providerKey].requiresPinInString) {
-          pinContainer.classList.remove('hidden');
-        } else {
-          pinContainer.classList.add('hidden');
-        }
+    // Providers Data Setup
+    const providers = {
+      bop: {
+        title: 'بنك فلسطين',
+        colorClass: 'bg-bop-500',
+        borderColor: 'border-bop-500',
+        textColor: 'text-bop-600 dark:text-bop-500',
+        bgLight: 'bg-bop-50 dark:bg-bop-900/20',
+        focusRing: 'focus:border-bop-500 focus:ring-bop-500',
+        buttonClass: 'bg-gradient-to-r from-bop-500 to-bop-600 hover:from-bop-600 hover:to-bop-700'
+      },
+      palpay: {
+        title: 'محفظة بال بي',
+        colorClass: 'bg-palpay-500',
+        borderColor: 'border-palpay-500',
+        textColor: 'text-palpay-600 dark:text-palpay-500',
+        bgLight: 'bg-palpay-50 dark:bg-palpay-900/20',
+        focusRing: 'focus:border-palpay-500 focus:ring-palpay-500',
+        buttonClass: 'bg-gradient-to-r from-palpay-500 to-palpay-600 hover:from-palpay-600 hover:to-palpay-700'
+      },
+      jawwal: {
+        title: 'محفظة جوال بي',
+        colorClass: 'bg-jawwal-500',
+        borderColor: 'border-jawwal-500',
+        textColor: 'text-jawwal-600 dark:text-jawwal-500',
+        bgLight: 'bg-jawwal-50 dark:bg-jawwal-900/20',
+        focusRing: 'focus:border-jawwal-500 focus:ring-jawwal-500',
+        buttonClass: 'bg-gradient-to-r from-jawwal-500 to-jawwal-600 hover:from-jawwal-600 hover:to-jawwal-700'
       }
-      handleInputChange();
-      playDtmfTone(697, 1336, 0.07);
-    }
-
-    function setProvider(key) {
-      appState.providerKey = key;
-      const prov = providersData[key];
-      document.getElementById('simCarrierDisplay').textContent = prov.network;
-      document.getElementById('dialerProviderName').textContent = `${prov.name} (${prov.shortCode})`;
-      
-      const pinContainer = document.getElementById('pinContainer');
-      if (appState.paymentType === 'friend' && prov.requiresPinInString) {
-        pinContainer.classList.remove('hidden');
-      } else {
-        pinContainer.classList.add('hidden');
-      }
-
-      updateGeneratedUssd();
-      playDtmfTone(770, 1209, 0.06);
-    }
-
-    function handleInputChange() {
-      appState.targetId = document.getElementById('inputTarget').value.trim() || '0';
-      appState.amount = document.getElementById('inputAmount').value.trim() || '0';
-      appState.pin = document.getElementById('inputPin').value.trim() || '1234';
-      appState.currency = document.getElementById('currencySelect').value;
-      updateGeneratedUssd();
-    }
-
-    function updateGeneratedUssd() {
-      const prov = providersData[appState.providerKey];
-      let pattern = appState.paymentType === 'merchant' ? prov.merchantSyntax : prov.friendSyntax;
-      
-      const fullString = pattern
-        .replace('{pin}', appState.pin)
-        .replace('{id}', appState.targetId)
-        .replace('{amt}', appState.amount);
-
-      document.getElementById('displayUssdString').textContent = fullString;
-      document.getElementById('dialerInputDisplay').textContent = fullString;
-      
-      const encoded = encodeURIComponent(fullString);
-      document.getElementById('btnTelLink').href = `tel:${encoded}`;
-    }
-
-    function copyUssdCommand() {
-      const str = document.getElementById('displayUssdString').textContent.trim();
-      const tempInput = document.createElement('input');
-      tempInput.value = str;
-      document.body.appendChild(tempInput);
-      tempInput.select();
-      document.execCommand('copy');
-      document.body.removeChild(tempInput);
-
-      const toast = document.getElementById('toastNotification');
-      toast.classList.remove('hidden');
-      playDtmfTone(1336, 941, 0.12);
-      setTimeout(() => toast.classList.add('hidden'), 3000);
-    }
-
-    const dtmfFrequencies = {
-      '1': [697, 1209], '2': [697, 1336], '3': [697, 1477],
-      '4': [770, 1209], '5': [770, 1336], '6': [770, 1477],
-      '7': [852, 1209], '8': [852, 1336], '9': [852, 1477],
-      '*': [941, 1209], '0': [941, 1336], '#': [941, 1477]
     };
 
-    function pressKey(char) {
-      if (dtmfFrequencies[char]) {
-        playDtmfTone(dtmfFrequencies[char][0], dtmfFrequencies[char][1], 0.08);
-      }
-      const display = document.getElementById('dialerInputDisplay');
-      if (display.textContent.trim() === '*789#' || display.textContent.trim() === '*150#') {
-        display.textContent = char;
+    let currentProvider = null;
+
+    // Tab Switching Logic
+    function switchTab(providerId) {
+      currentProvider = providerId;
+      const prov = providers[providerId];
+      
+      // Reset all tabs
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.className = 'tab-btn flex-1 py-4 px-6 rounded-2xl font-black text-sm md:text-base border-2 border-transparent text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 flex items-center justify-center gap-2 bg-transparent shadow-none';
+      });
+
+      // Activate selected tab
+      const activeTab = document.getElementById(`tab-${providerId}`);
+      activeTab.className = `tab-btn flex-1 py-4 px-6 rounded-2xl font-black text-sm md:text-base border-2 ${prov.borderColor} ${prov.textColor} ${prov.bgLight} flex items-center justify-center gap-2 shadow-sm transform scale-[1.02]`;
+
+      // Update Form UI
+      document.getElementById('emptyState').classList.add('hidden');
+      const form = document.getElementById('paymentForm');
+      form.classList.remove('hidden');
+      
+      // Re-trigger animation
+      const container = document.getElementById('formContainer');
+      container.classList.remove('tab-content-enter');
+      void container.offsetWidth; // Trigger reflow
+      container.classList.add('tab-content-enter');
+
+      // Update Header info inside form
+      document.getElementById('providerTitle').textContent = prov.title;
+      const icon = document.getElementById('providerIcon');
+      icon.className = `w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl transition-colors duration-300 shadow-lg ${prov.colorClass}`;
+
+      // Update Inputs Focus Rings & Button Colors
+      const inputs = document.querySelectorAll('#paymentForm input, #paymentForm select');
+      inputs.forEach(input => {
+        input.className = `w-full rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-5 py-4 text-lg font-bold text-slate-800 dark:text-slate-100 focus:outline-none transition-colors placeholder:font-normal placeholder:text-slate-400 ${prov.focusRing}`;
+      });
+      
+      // Select dropdown specifically to adjust appearance class
+      document.getElementById('paymentType').classList.add('appearance-none');
+
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.className = `w-full py-4 rounded-2xl font-black text-lg text-white shadow-xl transition-all transform hover:-translate-y-1 active:translate-y-0 flex items-center justify-center gap-3 ${prov.buttonClass}`;
+
+      // Call updateLabels to ensure correct text based on active payment type
+      updateLabels();
+    }
+
+    // Dynamic Label updating based on Select option
+    function updateLabels() {
+      const type = document.getElementById('paymentType').value;
+      const targetLabel = document.getElementById('targetLabel');
+      const targetInput = document.getElementById('targetNumber');
+
+      if (type === 'merchant') {
+        targetLabel.textContent = 'رقم التاجر';
+        targetInput.placeholder = 'أدخل كود التاجر المعتمد...';
       } else {
-        display.textContent += char;
+        targetLabel.textContent = 'رقم جوال الصديق / المستفيد';
+        targetInput.placeholder = 'مثال: 0599123456';
       }
     }
 
-    function clearLastKey() {
-      playDtmfTone(697, 1209, 0.04);
-      const display = document.getElementById('dialerInputDisplay');
-      display.textContent = display.textContent.slice(0, -1);
-      if (!display.textContent) {
-        display.textContent = providersData[appState.providerKey].shortCode;
-      }
+    // Handle Form Submit
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      
+      const type = document.getElementById('paymentType').value;
+      const typeText = type === 'merchant' ? 'دفع لتاجر' : 'دفع لصديق';
+      const target = document.getElementById('targetNumber').value;
+      const amount = document.getElementById('amount').value;
+      const prov = providers[currentProvider];
+
+      const resultText = `
+        تم تسجيل طلب العملية بنجاح.
+        <br><br>
+        <span class="text-slate-500">المزود:</span> <span class="text-slate-800 dark:text-slate-100">${prov.title}</span><br>
+        <span class="text-slate-500">النوع:</span> <span class="text-slate-800 dark:text-slate-100">${typeText}</span><br>
+        <span class="text-slate-500">الرقم/المعرف:</span> <span class="font-mono text-slate-800 dark:text-slate-100">${target}</span><br>
+        <span class="text-slate-500">المبلغ:</span> <span class="font-mono text-slate-800 dark:text-slate-100">${amount} ₪</span>
+      `;
+
+      document.getElementById('resultText').innerHTML = resultText;
+      const icon = document.getElementById('resultIcon');
+      icon.className = `w-20 h-20 mx-auto rounded-full flex items-center justify-center text-white mb-6 shadow-xl ${prov.colorClass}`;
+      
+      const overlay = document.getElementById('resultOverlay');
+      overlay.classList.remove('hidden');
+      overlay.classList.add('flex');
     }
 
-    function syncDialerToQuickCode() {
-      updateGeneratedUssd();
-      playDtmfTone(941, 1477, 0.09);
+    // Close Modal
+    function closeResult() {
+      const overlay = document.getElementById('resultOverlay');
+      overlay.classList.add('hidden');
+      overlay.classList.remove('flex');
     }
 
-    function launchInteractiveSimulator() {
-      appState.simState.active = true;
-      appState.simState.step = 1;
-      appState.simState.tempTarget = appState.targetId;
-      appState.simState.tempAmount = appState.amount;
-
-      const prov = providersData[appState.providerKey];
-      document.getElementById('simViewModal').classList.remove('hidden');
-      document.getElementById('modalProviderCode').textContent = prov.shortCode;
-      document.getElementById('modalInputContainer').classList.remove('hidden');
-      document.getElementById('modalBtnSend').classList.remove('hidden');
-
-      const modalInput = document.getElementById('modalUserInput');
-      modalInput.value = '';
-      modalInput.type = 'text';
-
-      playDtmfTone(941, 1336, 0.15);
-
-      // Step 1: Main Menu
-      if (appState.paymentType === 'merchant') {
-        document.getElementById('modalContentText').textContent = 
-          `${prov.name}\n1. دفع تجاري (P2M)\n2. استعلام رصيد المحفظة\n3. كشف حساب مصغر\n0. خروج`;
-        modalInput.placeholder = 'أدخل 1 للمتابعة';
-      } else {
-        document.getElementById('modalContentText').textContent = 
-          `${prov.name}\n1. تحويل لصديق (P2P)\n2. قائمة المستفيدين المحفوظة\n3. طلب أموال\n0. خروج`;
-        modalInput.placeholder = 'أدخل 1 للمتابعة';
-      }
-      setTimeout(() => modalInput.focus(), 150);
-    }
-
-    function submitSimulatorStep() {
-      const inputEl = document.getElementById('modalUserInput');
-      const val = inputEl.value.trim();
-      const prov = providersData[appState.providerKey];
-      const step = appState.simState.step;
-
-      playDtmfTone(770, 1336, 0.07);
-
-      // Step 1: Menu Option Choice
-      if (step === 1) {
-        if (val === '1') {
-          appState.simState.step = 2;
-          inputEl.value = '';
-          if (appState.paymentType === 'merchant') {
-            document.getElementById('modalContentText').textContent = 
-              `أدخل كود التاجر المعتمد (4-6 أرقام):`;
-            inputEl.placeholder = appState.targetId || '5421';
-          } else {
-            document.getElementById('modalContentText').textContent = 
-              `أدخل رقم جوال الصديق (059xxxxxxx):`;
-            inputEl.placeholder = appState.targetId || '0599123456';
-          }
-        } else if (val === '0') {
-          terminateSimulator();
-        } else {
-          document.getElementById('modalContentText').textContent = 
-            `خيار غير صحيح!\nيرجى إدخال 1 للمتابعة أو 0 للخروج.`;
-          inputEl.value = '';
-        }
-        return;
-      }
-
-      // Step 2: Target ID entered -> Prompt Amount
-      if (step === 2) {
-        appState.simState.tempTarget = val || appState.targetId;
-        appState.simState.step = 3;
-        inputEl.value = '';
-        document.getElementById('modalContentText').textContent = 
-          `الاسم المعتمد: ${prov.nameLookup}\nأدخل المبلغ بـ (${appState.currency}):`;
-        inputEl.placeholder = appState.amount || '75';
-        return;
-      }
-
-      // Step 3: Amount entered -> Prompt Secure PIN
-      if (step === 3) {
-        appState.simState.tempAmount = val || appState.amount;
-        appState.simState.step = 4;
-        inputEl.value = '';
-        inputEl.type = 'password';
-        
-        const label = appState.paymentType === 'merchant' ? 'المتجر' : 'المستفيد';
-        document.getElementById('modalContentText').textContent = 
-          `تأكيد المعاملة المالية:\nإلى ${label}: ${appState.simState.tempTarget}\nالقيمة: ${appState.simState.tempAmount} ${appState.currency}\nعمولة المعاملة: 0.00 ₪\n\nأدخل الرمز السري (PIN):`;
-        inputEl.placeholder = '****';
-        return;
-      }
-
-      // Step 4: PIN Authentication & HSM verification
-      if (step === 4) {
-        if (val === '1234') {
-          appState.simState.step = 5;
-          document.getElementById('modalInputContainer').classList.add('hidden');
-          document.getElementById('modalBtnSend').classList.add('hidden');
-
-          const rrn = Math.floor(10000000 + Math.random() * 90000000);
-          playDtmfTone(1336, 1209, 0.25);
-          
-          document.getElementById('modalContentText').textContent = 
-            `✔ تمت العملية بنجاح!\nالمبلغ: ${appState.simState.tempAmount} ${appState.currency}\nرقم المرجع (RRN): ${rrn}\nتم قيد الحساب لدى سلطة النقد (PMA).\nستصلك رسالة SMS فورية.`;
-        } else {
-          inputEl.value = '';
-          playDtmfTone(941, 1209, 0.2);
-          document.getElementById('modalContentText').textContent = 
-            `❌ الرمز السري غير صحيح!\nملاحظة للتجربة: أدخل الرمز السري (1234).\nأعد إدخال الرمز السري:`;
-        }
-      }
-    }
-
-    function terminateSimulator() {
-      appState.simState.active = false;
-      appState.simState.step = 0;
-      document.getElementById('simViewModal').classList.add('hidden');
-      playDtmfTone(852, 1209, 0.08);
-    }
-
-    // Keyboard 'Enter' key inside simulation terminal input
-    document.getElementById('modalUserInput').addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') submitSimulatorStep();
-    });
-
-    // Initial Bootstrap
+    // Initialize defaults on load
     window.addEventListener('DOMContentLoaded', () => {
       initTheme();
-      renderProvidersUI();
-      updateGeneratedUssd();
     });
   </script>
 </body>
